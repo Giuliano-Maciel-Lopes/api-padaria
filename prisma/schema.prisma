@@ -12,3 +12,117 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+   enum Role {
+  CUSTOMER
+  ADMIN
+  STOCK
+}
+
+enum OrderStatus {
+  PROCESSING
+  SHIPPED
+
+ 
+}
+
+// Models (com UUID e tabelas de dias)
+model User {
+  id        String     @id @default(uuid())
+  name      String
+  email     String     @unique
+  password  String
+  role      Role       @default(CUSTOMER)
+  createdAt DateTime   @default(now()) @map("created_at")
+  updatedAt DateTime   @default(now()) @updatedAt @map("updated_at")
+
+  userInfo  UserInfo[]
+  orders    Order[]
+}
+
+model UserInfo {
+  id           String     @id @default(uuid())
+  userId       String     @map("user_id")
+  address      String
+  neighborhood String
+  city         String
+  phoneNumber  String     @map("phone_number")
+  createdAt    DateTime   @default(now()) @map("created_at")
+  updatedAt    DateTime   @default(now()) @updatedAt @map("updated_at")
+
+  user         User       @relation(fields: [userId], references: [id])
+  deliveries   Delivery[]
+}
+
+model Product {
+  id          String       @id @default(uuid())
+  name        String
+  description String?
+  price       Float
+  createdAt   DateTime     @default(now()) @map("created_at")
+  updatedAt   DateTime     @default(now()) @updatedAt @map("updated_at")
+
+  orderItems  OrderItem[]
+  stockByDay  ProductDay[]
+}
+
+
+model DayOfWeek {
+  id        String       @id @default(uuid())
+  name      String
+  createdAt DateTime     @default(now()) @map("created_at")
+
+  products  ProductDay[]
+}
+
+
+model ProductDay {
+  id          String    @id @default(uuid())
+  productId   String    @map("product_id")
+  dayOfWeekId String    @map("day_of_week_id")
+  stock       Int       @default(0)
+  createdAt   DateTime  @default(now()) @map("created_at")
+  updatedAt   DateTime  @default(now()) @updatedAt @map("updated_at")
+
+  product     Product   @relation(fields: [productId], references: [id])
+  dayOfWeek   DayOfWeek @relation(fields: [dayOfWeekId], references: [id])
+}
+
+model Order {
+  id                   String       @id @default(uuid())
+  userId               String       @map("user_id")
+  totalAmount          Float        @map("total_amount")
+  status               OrderStatus  @default(PROCESSING)
+  createdAt            DateTime     @default(now()) @map("created_at")
+  estimatedDeliveryTime DateTime?   @map("estimated_delivery_time")
+  user                 User         @relation(fields: [userId], references: [id])
+
+  items                OrderItem[]
+  delivery             Delivery?
+}
+
+model OrderItem {
+  id         String  @id @default(uuid())
+  orderId    String  @map("order_id")
+  productId  String  @map("product_id")
+  quantity   Int
+  unitPrice  Float   @map("unit_price")
+
+  order      Order   @relation(fields: [orderId], references: [id])
+  product    Product @relation(fields: [productId], references: [id])
+}
+
+model Delivery {
+  id           String      @id @default(uuid())
+  orderId      String      @unique @map("order_id")
+  userInfoId   String      @map("user_info_id")
+  deliveredAt  DateTime?   @map("delivered_at")
+  status       OrderStatus
+  deliveryNotes String?    @map("delivery_notes")
+  createdAt    DateTime    @default(now()) @map("created_at")
+
+  order        Order       @relation(fields: [orderId], references: [id])
+  userInfo     UserInfo    @relation(fields: [userInfoId], references: [id])
+}
+
+
