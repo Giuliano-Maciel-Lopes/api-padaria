@@ -22,11 +22,9 @@ datasource db {
 enum OrderStatus {
   PROCESSING
   SHIPPED
-
- 
+  DELIVERED
 }
 
-// Models (com UUID e tabelas de dias)
 model User {
   id        String     @id @default(uuid())
   name      String
@@ -38,6 +36,8 @@ model User {
 
   userInfo  UserInfo[]
   orders    Order[]
+
+  @@map("users")
 }
 
 model UserInfo {
@@ -52,6 +52,8 @@ model UserInfo {
 
   user         User       @relation(fields: [userId], references: [id])
   deliveries   Delivery[]
+
+  @@map("user_infos")
 }
 
 model Product {
@@ -64,8 +66,9 @@ model Product {
 
   orderItems  OrderItem[]
   stockByDay  ProductDay[]
-}
 
+  @@map("products")
+}
 
 model DayOfWeek {
   id        String       @id @default(uuid())
@@ -73,8 +76,9 @@ model DayOfWeek {
   createdAt DateTime     @default(now()) @map("created_at")
 
   products  ProductDay[]
-}
 
+  @@map("days_of_week")
+}
 
 model ProductDay {
   id          String    @id @default(uuid())
@@ -86,6 +90,8 @@ model ProductDay {
 
   product     Product   @relation(fields: [productId], references: [id])
   dayOfWeek   DayOfWeek @relation(fields: [dayOfWeekId], references: [id])
+
+  @@map("product_days")
 }
 
 model Order {
@@ -99,6 +105,8 @@ model Order {
 
   items                OrderItem[]
   delivery             Delivery?
+
+  @@map("orders")
 }
 
 model OrderItem {
@@ -110,6 +118,8 @@ model OrderItem {
 
   order      Order   @relation(fields: [orderId], references: [id])
   product    Product @relation(fields: [productId], references: [id])
+
+  @@map("order_items")
 }
 
 model Delivery {
@@ -123,6 +133,6 @@ model Delivery {
 
   order        Order       @relation(fields: [orderId], references: [id])
   userInfo     UserInfo    @relation(fields: [userInfoId], references: [id])
+
+  @@map("deliveries")
 }
-
-
