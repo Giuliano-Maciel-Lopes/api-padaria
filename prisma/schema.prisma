@@ -60,6 +60,7 @@ model Product {
   id          String       @id @default(uuid())
   name        String
   description String?
+  category  String
   price       Float
   createdAt   DateTime     @default(now()) @map("created_at")
   updatedAt   DateTime     @default(now()) @updatedAt @map("updated_at")
