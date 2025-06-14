@@ -1,7 +1,7 @@
 import { prisma } from "@/database/prisma.js";
 import z from "zod";
 import { Request, Response } from "express";
-import { id } from "zod/v4/locales";
+
 
 class ProductsController {
   async create(req: Request, res: Response) {
@@ -58,7 +58,7 @@ class ProductsController {
     res.status(200).json("item removido");
   }
   async update(req: Request, res: Response) {
-    // Giuliano: antes de ir dormir conferir sobre a questao de input vazio e perder os dados do bd amanha 
+    // Giuliano: antes de ir dormir; conferir sobre a questao de input vazio e perder os dados do bd amanha 
     
     const id = z
       .string()

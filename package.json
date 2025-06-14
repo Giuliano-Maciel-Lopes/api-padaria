@@ -5,7 +5,11 @@
   "type": "module",
   "scripts": {
     "dev": "tsx --watch ./src/server"
+    
   },
+  "prisma": {
+  "seed": "tsx ./prisma/seed"
+},
   "keywords": [],
   "author": "Giuliano Maciel Lopes",
   "license": "ISC",

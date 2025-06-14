@@ -18,8 +18,8 @@ productsRouter.post(
   productsController.create
 );
 
-productsRouter.delete("/:id", productsController.remove);
+productsRouter.delete("/:id", verifyUserAuthorization([Role.ADMIN , Role.STOCK]), productsController.remove);
 
-productsRouter.put("/:id", productsController.update);
+productsRouter.put("/:id", verifyUserAuthorization([Role.ADMIN , Role.STOCK]), productsController.update);
 
 export { productsRouter };

@@ -1,6 +1,4 @@
-
-
-import { Role } from "@/enums/roles"; 
+import { Role } from "@/enums/roles"; // Enum personalizado
 
 declare global {
   namespace Express {
@@ -12,3 +10,5 @@ declare global {
     }
   }
 }
+
+export {}; // <- IMPORTANTE para tratar como módulo TypeScript
