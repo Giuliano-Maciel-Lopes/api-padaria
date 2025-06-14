@@ -32,7 +32,7 @@ class ProductsController {
   }
   async index(req: Request, res: Response) {
     const querySchema = z.object({
-      category: z.string().transform((val) => val.toLowerCase()),
+      category: z.string().optional().transform((val) => val?.toLowerCase()),
     });
     const { category } = querySchema.parse(req.query);
     const products = await prisma.product.findMany({
@@ -100,6 +100,10 @@ class ProductsController {
 });
    res.status(201).json("alteraçoes feitas!")
 }
+ async show(req: Request, res: Response) {
+   const products = await prisma.product.findMany()
+   res.json(products)
+ }
 }
 export { ProductsController};
 // vc do passado deixou uma mensagem para vc ms no update caso esqueça

@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express"
 import { AppError } from "@/utils/app-error.js"
-import { Role } from "@/types/enum.js"
+import { Role } from "@/types/enum..js"
 
 function verifyUserAuthorization(rolee: Role[]) {
   return (req: Request, res: Response, next: NextFunction) => {

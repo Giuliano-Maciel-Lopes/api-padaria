@@ -1,7 +1,7 @@
 import { storage } from "@/config/upload.js";
 import { UploadsController } from "@/controllers/upload-controller.js";
 import { verifyUserAuthorization } from "@/middleware/verifyuserauth.js";
-import { Role } from "@prisma/client";
+import { Role } from "@/types/enum..js";
 import { Router } from "express";
 import multer from "multer";
 

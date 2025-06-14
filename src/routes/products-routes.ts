@@ -2,7 +2,8 @@ import { Router } from "express";
 
 import { ProductsController } from "@/controllers/products-controller.js";
 import { verifyUserAuthorization } from "@/middleware/verifyuserauth.js";
-import { Role } from "@prisma/client";
+import { Role } from "@/types/enum..js";
+
 
 
 

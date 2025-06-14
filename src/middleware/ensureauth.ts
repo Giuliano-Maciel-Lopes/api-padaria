@@ -3,9 +3,10 @@ import jwt from "jsonwebtoken";
 import { authConfig } from "@/config/auth.js";
 import { AppError } from "@/utils/app-error.js";
 import { error } from "console";
+import { Role } from "@/types/enum..js";
 
 interface TokenPayload {
-  role: string;
+  role: Role;
   sub: string;
 }
 

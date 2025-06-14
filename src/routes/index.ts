@@ -6,6 +6,8 @@ import { sessionsRoutes } from "./session-rotes.js";
 import { uploadsRoutes } from "./uploads-routes.js";
 import { productsRouter } from "./products-routes.js";
 import { userInfoRoutes } from "./userInfo-routes.js";
+import { productsDayRoutes } from "./productsDay-routes.js";
+
 
 
 
@@ -18,6 +20,7 @@ routes.use(ensureAuth)
 routes.use("/uploads" , uploadsRoutes)
 routes.use("/products" , productsRouter)
 routes.use("/user_infos" , userInfoRoutes)
+routes.use("/products_day" , productsDayRoutes)
 
 
 

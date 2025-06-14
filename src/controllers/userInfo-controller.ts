@@ -6,7 +6,7 @@ import { z } from "zod";
 
 class UserInfoController {
 
-  async create(req:Request , res:Response) {
+  async create(req:Request , res:Response):Promise<any> {
     const bodyschema = z.object({
       address: z.string().trim().min(1, "Endereço é obrigatório"),
       neighborhood: z.string().trim().min(1, "Bairro é obrigatório"),
