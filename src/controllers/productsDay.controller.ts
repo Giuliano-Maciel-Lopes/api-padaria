@@ -3,8 +3,10 @@ import z from "zod";
 
 import { prisma } from "@/database/prisma.js";
 
+
 class ProductDaysController {
-  async create(req: Request, res: Response): Promise<any> {
+    async create(req: Request, res: Response): Promise<void> {
+
     const productDaySchema = z.object({
       productName: z.string().min(1), // colocar to lower case
       dayName: z.string().min(1),
@@ -15,14 +17,11 @@ class ProductDaysController {
     const product = await prisma.product.findFirst({
       where: { name: productName },
     });
+     const day = await prisma.dayOfWeek.findFirst({ where: { name: dayName } });
 
-    if (!product) {
-      return res.status(404).json("product nao encontardo");
-    }
-    const day = await prisma.dayOfWeek.findFirst({ where: { name: dayName } });
-
-    if (!day) {
-      return res.status(404).json("data informada errada");
+    if (!product || !day ) {
+      res.status(404).json("product ou dia nao encontrado");
+       return // coloquei id aqui inves de ali em cima 
     }
 
     await prisma.productDay.create({
@@ -33,15 +32,15 @@ class ProductDaysController {
   }
   async index(req: Request, res: Response) {
     const querySchema = z.object({
-      nameday: z
+      name: z
         .string()
         .transform((val) => val.toLowerCase())
         .optional(),
     });
-    const { nameday } = querySchema.parse(req.query);
+    const { name } = querySchema.parse(req.query);
 
     const productDay = await prisma.productDay.findMany({
-      where: { dayOfWeek: { is: { name: nameday } } },
+      where: { dayOfWeek: { is: { name} } },
       select: { //n pode usar select e join junto am select faz ,eio que o papel de join 
         stock: true,
         product: { select: { name: true, price: true, category: true } },

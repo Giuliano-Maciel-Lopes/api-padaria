@@ -6,7 +6,7 @@ import { z } from "zod";
 
 class UserInfoController {
 
-  async create(req:Request , res:Response):Promise<any> {
+  async create(req:Request , res:Response):Promise<void> {
     const bodyschema = z.object({
       address: z.string().trim().min(1, "Endereço é obrigatório"),
       neighborhood: z.string().trim().min(1, "Bairro é obrigatório"),
@@ -15,9 +15,10 @@ class UserInfoController {
     });
 
     if (!req.user?.id) {
-      return res
+       res
         .status(401)
-        .json({ message: "Usuário não autenticado , conecta-se a uma conta" });
+        .json({ message: "Usuário não autenticado , conecta-se a uma conta" })
+        return;
     }
 
     const { address, neighborhood, city, phoneNumber } = bodyschema.parse(
@@ -27,7 +28,9 @@ class UserInfoController {
     await prisma.userInfo.create({
       data: { userId: req.user.id, address, neighborhood, city, phoneNumber },
     });
-    return res.status(201).json("informaçoes do usuario cadastrado");
+   
+    res.status(201).json("informaçoes do usuario cadastrado");
+    return
   
     
   }

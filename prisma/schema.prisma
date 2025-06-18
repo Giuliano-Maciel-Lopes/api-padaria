@@ -17,6 +17,7 @@ datasource db {
   CUSTOMER
   ADMIN
   STOCK
+  DELIVERY_PERSON
 }
 
 enum OrderStatus {
@@ -51,7 +52,7 @@ model UserInfo {
   updatedAt    DateTime   @default(now()) @updatedAt @map("updated_at")
 
   user         User       @relation(fields: [userId], references: [id])
-  deliveries   Delivery[]
+  
 
   @@map("user_infos")
 }
@@ -98,14 +99,13 @@ model ProductDay {
 model Order {
   id                   String       @id @default(uuid())
   userId               String       @map("user_id")
-  totalAmount          Float        @map("total_amount")
+ totalAmount Float @default(0) @map("total_amount")
   status               OrderStatus  @default(PROCESSING)
   createdAt            DateTime     @default(now()) @map("created_at")
-  estimatedDeliveryTime DateTime?   @map("estimated_delivery_time")
   user                 User         @relation(fields: [userId], references: [id])
 
   items                OrderItem[]
-  delivery             Delivery?
+
 
   @@map("orders")
 }
@@ -123,17 +123,5 @@ model OrderItem {
   @@map("order_items")
 }
 
-model Delivery {
-  id           String      @id @default(uuid())
-  orderId      String      @unique @map("order_id")
-  userInfoId   String      @map("user_info_id")
-  deliveredAt  DateTime?   @map("delivered_at")
-  status       OrderStatus
-  deliveryNotes String?    @map("delivery_notes")
-  createdAt    DateTime    @default(now()) @map("created_at")
 
-  order        Order       @relation(fields: [orderId], references: [id])
-  userInfo     UserInfo    @relation(fields: [userInfoId], references: [id])
 
-  @@map("deliveries")
-}

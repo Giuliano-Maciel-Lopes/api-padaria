@@ -7,6 +7,8 @@ import { uploadsRoutes } from "./uploads-routes.js";
 import { productsRouter } from "./products-routes.js";
 import { userInfoRoutes } from "./userInfo-routes.js";
 import { productsDayRoutes } from "./productsDay-routes.js";
+import { ordersRoutes } from "./order-routes.js";
+import { ordersItensRoutes } from "./orderItens-routes.js";
 
 
 
@@ -21,6 +23,8 @@ routes.use("/uploads" , uploadsRoutes)
 routes.use("/products" , productsRouter)
 routes.use("/user_infos" , userInfoRoutes)
 routes.use("/products_day" , productsDayRoutes)
+routes.use("/orders" , ordersRoutes)
+routes.use("/orders_itens" , ordersItensRoutes)
 
 
 
