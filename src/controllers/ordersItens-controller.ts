@@ -5,8 +5,13 @@ import z from "zod";
 
 class OrdersItensController {
   async create(req: Request, res: Response) {
+    const sechmaParams = z.object({
+
+      orderid: z.string().uuid({ message: "ID inválido, deve ser um UUID" }),
+    })
+    const { orderid } = sechmaParams.parse(req.params);
+    
     const schema = z.object({
-      orderId: z.string().uuid(), // obrigatório para vincular os itens ao pedido
       items: z.array(
         z.object({
           productId: z.string().uuid(),
@@ -15,7 +20,7 @@ class OrdersItensController {
       ),
     });
 
-    const { items, orderId } = schema.parse(req.body);
+    const { items, } = schema.parse(req.body);
 
     const productIds = items.map((item) => item.productId);
 
@@ -23,6 +28,7 @@ class OrdersItensController {
       where: { id: { in: productIds } },
     });
 console.log("Produtos encontrados:", products);
+
     const orderItemsData = items.map((item) => {
 
       const product = products.find(p => p.id === item.productId);
@@ -32,7 +38,7 @@ console.log("Produtos encontrados:", products);
       }
 
       return {
-        orderId,
+        orderId: orderid,
         productId: item.productId,
         quantity: item.quantity,
         unitPrice: product.price, 
@@ -40,7 +46,7 @@ console.log("Produtos encontrados:", products);
 
     });
 
-    await prisma.orderItem.createMany({data: orderItemsData})
+    await prisma.orderItem.createMany({data: orderItemsData })
     console.log(products)
 
     res.json({message: orderItemsData});

@@ -7,6 +7,6 @@ const ordersItensRoutes = Router()
 const ordersItensController= new OrdersItensController
 
 
-ordersItensRoutes.post("/" , ordersItensController.create)
+ordersItensRoutes.post("/:orderid" , ordersItensController.create)
 
 export {ordersItensRoutes}
