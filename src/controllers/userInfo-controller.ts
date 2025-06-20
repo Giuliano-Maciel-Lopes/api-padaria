@@ -1,6 +1,7 @@
 import { prisma } from "@/database/prisma.js";
 import { Request, Response } from "express";
 import { z } from "zod";
+import { createUserInfoSchema } from "@/schema/userInfo/create.js";
 
 
 

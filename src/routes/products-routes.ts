@@ -21,7 +21,7 @@ productsRouter.post(
 
 productsRouter.delete("/:id", verifyUserAuthorization([Role.ADMIN , Role.STOCK]), productsController.remove);
 
-productsRouter.put("/:id", verifyUserAuthorization([Role.ADMIN , Role.STOCK]), productsController.update);
+productsRouter.patch("/:id", verifyUserAuthorization([Role.ADMIN , Role.STOCK]), productsController.update);
 
 productsRouter.get("/search",  productsController.show);
 

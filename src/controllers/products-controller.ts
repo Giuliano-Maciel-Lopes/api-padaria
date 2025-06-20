@@ -1,46 +1,23 @@
 import { prisma } from "@/database/prisma.js";
 import z from "zod";
 import { Request, Response } from "express";
+import { createProductSchema } from "@/schema/products/creat.js";
+import { indexProductQuerySchema } from "@/schema/products/index.js";
+import { idParamSchema } from "@/schema/products/remove.js";
+import { updateProductBodySchema } from "@/schema/products/update.js";
 
 class ProductsController {
   async create(req: Request, res: Response) {
-    const bodySchema = z.object({
-      name: z
-        .string()
-        .trim()
-        .min(3, { message: "O nome deve ter no mínimo 3 caracteres." }),
-      description: z.string().optional(),
-      category: z
-        .string()
-        .trim()
-        .min(1, { message: "Adicione uma categoria válida." })
-        .transform((val) => val.toLowerCase()),
-
-      price: z
-        .number({ message: "O preço deve ser um número." })
-        .positive({ message: "O preço deve ser positivo." }),
-        imageUrl: z
-    .string()
-    .url({ message: "A imagem deve ser uma URL válida." })
-    .optional(), // se quiser deixar opcional
-    });
-
-    const data = bodySchema.parse(req.body);
+    const data = createProductSchema.parse(req.body);
 
     await prisma.product.create({
-      data:data
+      data: data,
     });
 
     res.status(201).json({ message: "Produto cadastrado com sucesso." });
   }
   async index(req: Request, res: Response) {
-    const querySchema = z.object({
-      category: z
-        .string()
-        .optional()
-        .transform((val) => val?.toLowerCase()),
-    });
-    const { category } = querySchema.parse(req.query);
+    const { category } = indexProductQuerySchema.parse(req.query);
     const products = await prisma.product.findMany({
       where: { category: category },
       orderBy: { price: "asc" },
@@ -48,10 +25,7 @@ class ProductsController {
     res.status(200).json(products);
   }
   async remove(req: Request, res: Response) {
-    const id = z
-      .string()
-      .uuid({ message: "ID inválido, deve ser um UUID" })
-      .parse(req.params.id);
+    const { id } = idParamSchema.parse(req.params);
 
     const confirm_id = await prisma.product.findUnique({ where: { id } }); //preucaçao mas so o uuid no zod ja reoslve
 
@@ -65,30 +39,9 @@ class ProductsController {
   async update(req: Request, res: Response) {
     // Giuliano: antes de ir dormir; conferir sobre a questao de input vazio e perder os dados do bd amanha
 
-    const id = z
-      .string()
-      .uuid({ message: "ID inválido, deve ser um UUID" })
-      .parse(req.params.id);
+    const { id } = idParamSchema.parse(req.params);
 
-    const updateSchema = z.object({
-      name: z
-        .string()
-        .trim()
-        .min(3, { message: "O nome deve ter no mínimo 3 caracteres." }),
-
-      description: z.string().optional(),
-
-      category: z
-        .string()
-        .trim()
-        .min(1, { message: "Adicione uma categoria válida." })
-        .transform((val) => val.toLowerCase()),
-
-      price: z
-        .number({ message: "O preço deve ser um número." })
-        .positive({ message: "O preço deve ser positivo." }),
-    });
-    const { name, price, category, description } = updateSchema.parse(req.body);
+    const data = updateProductBodySchema.parse(req.body);
 
     const confirm_id = await prisma.product.findUnique({ where: { id } });
 
@@ -98,7 +51,7 @@ class ProductsController {
 
     await prisma.product.update({
       where: { id },
-      data: { name, price, category, description },
+      data: data,
     });
     res.status(201).json("alteraçoes feitas!");
   }
@@ -111,9 +64,8 @@ class ProductsController {
     const products = await prisma.product.findMany({
       where: { name: { contains: name, mode: "insensitive" } },
     });
-     res.status(200).json(products)
+    res.status(200).json(products);
   }
- 
 }
 export { ProductsController };
 // vc do passado deixou uma mensagem para vc ms no update caso esqueça

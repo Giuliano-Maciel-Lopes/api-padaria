@@ -1,18 +1,14 @@
 import { Request, Response } from "express";
 import z from "zod";
-
 import { prisma } from "@/database/prisma.js";
+import { createProductDaySchema } from "@/schema/productsDay/create.js";
+import { queryProductDaySchema } from "@/schema/productsDay/index.js";
 
 
 class ProductDaysController {
     async create(req: Request, res: Response): Promise<void> {
 
-    const productDaySchema = z.object({
-      productName: z.string().min(1), // colocar to lower case
-      dayName: z.string().min(1),
-      stock: z.number().int().min(0),
-    });
-    const { productName, dayName, stock } = productDaySchema.parse(req.body);
+    const { productName, dayName, stock } = createProductDaySchema.parse(req.body);
 
     const product = await prisma.product.findFirst({
       where: { name: productName },
@@ -31,13 +27,8 @@ class ProductDaysController {
     res.json("ok");
   }
   async index(req: Request, res: Response) {
-    const querySchema = z.object({
-      name: z
-        .string()
-        .transform((val) => val.toLowerCase())
-        .optional(),
-    });
-    const { name } = querySchema.parse(req.query);
+    
+    const { name } = queryProductDaySchema.parse(req.query);
 
     const productDay = await prisma.productDay.findMany({
       where: { dayOfWeek: { is: { name} } },

@@ -2,25 +2,17 @@ import { prisma } from "@/database/prisma.js";
 import { AppError } from "@/utils/app-error.js";
 import { Request, Response } from "express";
 import z from "zod";
+import { orderItensParamsSchema } from "@/schema/orderItens/create.js";
+import { createOrderItemsSchema } from "@/schema/orderItens/create.js";
 
 class OrdersItensController {
   async create(req: Request, res: Response) {
-    const sechmaParams = z.object({
-
-      orderid: z.string().uuid({ message: "ID inválido, deve ser um UUID" }),
-    })
-    const { orderid } = sechmaParams.parse(req.params);
     
-    const schema = z.object({
-      items: z.array(
-        z.object({
-          productId: z.string().uuid(),
-          quantity: z.number().int().min(1),
-        })
-      ),
-    });
+    const { orderid } = orderItensParamsSchema.parse(req.params);
+    
+    
 
-    const { items, } = schema.parse(req.body);
+    const { items, } = createOrderItemsSchema.parse(req.body);
 
     const productIds = items.map((item) => item.productId);
 
