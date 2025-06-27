@@ -1,6 +1,5 @@
 import { prisma } from "@/database/prisma.js";
 import { Request, Response } from "express";
-import { z } from "zod";
 import { createUserInfoSchema } from "@/schema/userInfo/create.js";
 
 
@@ -8,13 +7,7 @@ import { createUserInfoSchema } from "@/schema/userInfo/create.js";
 class UserInfoController {
 
   async create(req:Request , res:Response):Promise<void> {
-    const bodyschema = z.object({
-      address: z.string().trim().min(1, "Endereço é obrigatório"),
-      neighborhood: z.string().trim().min(1, "Bairro é obrigatório"),
-      city: z.string().trim().min(1, "Cidade é obrigatória"),
-      phoneNumber: z.string().trim().min(8, "Número de telefone inválido"),
-    });
-
+    
     if (!req.user?.id) {
        res
         .status(401)
@@ -22,7 +15,7 @@ class UserInfoController {
         return;
     }
 
-    const { address, neighborhood, city, phoneNumber } = bodyschema.parse(
+    const { address, neighborhood, city, phoneNumber } = createUserInfoSchema.parse(
       req.body
     );
 
