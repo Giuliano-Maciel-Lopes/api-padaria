@@ -3,6 +3,7 @@ import { Router } from "express";
 import { ProductsController } from "@/controllers/products-controller.js";
 import { verifyUserAuthorization } from "@/middleware/verifyuserauth.js";
 import { Role } from "@/types/enum..js";
+import { ensureAuth } from "@/middleware/ensureauth.js";
 
 
 
@@ -12,6 +13,8 @@ const productsRouter = Router();
 const productsController = new ProductsController();
 
 productsRouter.get("/", productsController.index);
+
+productsRouter.use(ensureAuth)
 
 productsRouter.post(
   "/",

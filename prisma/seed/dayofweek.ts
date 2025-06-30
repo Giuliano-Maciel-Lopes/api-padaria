@@ -1,7 +1,7 @@
 import { prisma } from "@/database/prisma.js";
-import { log } from "console";
 
-async function seed() {
+
+export async function dayOfWeekSedd() {
   await prisma.dayOfWeek.createMany({ data: [ 
       { name: "segunda feira" },
       { name: "terça feira" },
@@ -13,10 +13,4 @@ async function seed() {
     ],
 
    // skipDuplicates: true, // evita erro se rodar mais de uma vez] 
-    });
-
-}
-seed().then(()=>{
-    console.log("sedd executado")
-    prisma.$disconnect()
-})
+    });}
