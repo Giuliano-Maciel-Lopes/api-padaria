@@ -6,9 +6,9 @@ import uploadConfig from "../config/upload.js"
 export class DiskStorage {
   async saveFileToCategory(file: string, category: string) {
     const tmpPath = path.resolve(uploadConfig.TMP_FOLDER, file)
-    const categoryFolder = path.resolve(uploadConfig.TMP_FOLDER, category) // 'fotos/Bebidas', por ex.
+    const categoryFolder = path.resolve(uploadConfig.TMP_FOLDER, category) 
 
-    // NÃO precisa criar a pasta porque elas já existem
+   
 
     const finalPath = path.resolve(categoryFolder, file)
 
