@@ -1,34 +1,53 @@
 import { Request, Response } from "express";
 import { DiskStorage } from "@/providers/disktorage.js";
-import { uploadFileSchema, uploadCategorySchema } from "@/schema/uploads/schemaupload.js"; // certifique-se que esse caminho está certo
+import { uploadCombinedSchema } from "@/schema/uploads/schemaupload.js"; // import seu esquema combinado
 import { ZodError } from "zod";
 
+
 class UploadsController {
-  async create(req: Request, res: Response) {
+  async create(req: Request, res: Response): Promise<void> {
     const diskStorage = new DiskStorage();
 
-    const file = req.file;
     const category = req.body.category;
 
+    // Adaptar fileData para validar (pode ser undefined)
+    const fileData = req.file
+      ? {
+          filename: req.file.filename || req.file.originalname,
+          mimetype: req.file.mimetype,
+          size: req.file.size,
+        }
+      : undefined;
+
     try {
-      // Validação com Zod
-      const validFile = uploadFileSchema.parse(file);
-      const validCategory = uploadCategorySchema.parse(category);
+      // Validar dados combinados (arquivo opcional, categoria opcional mas condicionada)
+      const validData = uploadCombinedSchema.parse({ file: fileData, category });
 
-      // Move da pasta temporária para a pasta da categoria
-      const relativePath = await diskStorage.saveFileToCategory(validFile.filename, validCategory);
+      // Se tem arquivo, mover
+      let relativePath = null;
+      if (validData.file) {
+        relativePath = await diskStorage.saveFileToCategory(
+          req.file!.filename, // req.file existe se validData.file existe
+          validData.category!
+        );
+      }
 
-      res.status(201).json({ message: "Upload feito", path: relativePath });
+      res.status(201).json({ 
+        message: "Upload feito",
+        path: relativePath,
+      });
 
     } catch (error) {
       if (error instanceof ZodError) {
-        return res.status(400).json({ error: error.issues[0].message });
+        res.status(400).json({ error: error.issues[0].message })
+        return;
       }
-
-      console.error("Erro ao mover arquivo:", error);
+      console.error("Erro ao processar upload:", error);
       res.status(500).json({ error: "Erro interno" });
     }
   }
 }
+
+
 
 export { UploadsController };

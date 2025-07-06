@@ -66,6 +66,14 @@ class ProductsController {
     });
     res.status(200).json(products);
   }
+  async showById(req: Request, res: Response) {
+
+    const {id} = idParamSchema.parse(req.params)
+
+    const product = await prisma.product.findUnique({where:{id}})
+    res.json(product)
+
+  }
 }
 export { ProductsController };
 // vc do passado deixou uma mensagem para vc ms no update caso esqueça

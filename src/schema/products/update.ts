@@ -18,7 +18,7 @@ export const updateProductBodySchema = z.object({
 
   price: z.number().positive().optional(),
 
-  imageUrl: z.string().url().optional(),
+  imageUrl: z.string().optional(),
 });
 
 export type UpdateInput = z.infer<typeof updateProductBodySchema>;
