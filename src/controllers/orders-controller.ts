@@ -1,4 +1,5 @@
 import { prisma } from "@/database/prisma.js";
+import { promises } from "dns";
 import { Request, Response } from "express";
 import z from "zod";
 
@@ -11,62 +12,121 @@ class OrdersController {
       return;
     }
 
-    await prisma.order.create({ data: { userId: userId } });
-    res.status(200).json("criando pedido...");
+    // Verifica se já tem pedido em processamento
+    const orders = await prisma.order.findMany({
+      where: { userId, status: "PROCESSING" },
+    });
+
+    if (orders.length === 0) {
+      const newOrders = await prisma.order.create({
+        data: { userId },
+      });
+
+      res
+        .status(201)
+        .json({ message: "Pedido criado com sucesso!", orders: newOrders });
+      return;
+    }
+    res.status(200).json({ message: "Pedido em andamento já existe." });
   }
 
   async index(req: Request, res: Response) {
+    const isAdm = req.user?.role ==="ADMIN"
+
     const ordersUser = await prisma.order.findMany({
-      where: { userId: req.user?.id },
+      where: isAdm? {} :{ userId: req.user?.id },
+
       select: {
         totalAmount: true,
         status: true,
+        id: true,
 
         items: {
           select: {
             quantity: true,
             unitPrice: true,
             product: { select: { name: true } },
-            
           },
         },
+        user: {
+          select: { name: true },
+        },
       },
+    } );
+
+    const ordersWithTotal = ordersUser.map((order) => {
+      const totalAmount = order.items.reduce((acc, item) => {
+        return acc + item.quantity * item.unitPrice;
+      }, 0);
+
+      return {
+        ...order, // espalha os dados do pedido atual (order)
+        totalAmount, // adiciona o total calculado
+      };
     });
 
-    res.json(ordersUser);
+    res.json(ordersWithTotal);
   }
 
   async updateStatus(req: Request, res: Response) {
     const paramsSchema = z.object({
-      id: z.string().uuid(),
+      idOrders: z.string().uuid(),
     });
     const bodySchema = z.object({
       status: z.enum(["PROCESSING", "SHIPPED", "DELIVERED"]),
     });
     const { status } = bodySchema.parse(req.body);
 
-    const { id } = paramsSchema.parse(req.params);
+    const { idOrders } = paramsSchema.parse(req.params);
 
-    await prisma.order.update({ where: { id }, data: { status } });
+    const update = await prisma.order.update({
+      where: { id: idOrders },
+      data: { status },
+    });
 
-    res.json("status do pedido atualizado");
+    res.json("status do pedido atualizado para " + update.status);
+  }
+  async delete(req: Request, res: Response) {
+      
+    
+
+   }
+
+  async show(req: Request, res: Response):Promise <void> {
+  const paramsSchema = z.object({
+    id: z.string().uuid(),
+  });
+
+  const { id } = paramsSchema.parse(req.params);
+
+  const order = await prisma.order.findUnique({
+    where: { id },
+    select: {
+      id: true,
+      status: true,
+      totalAmount: true,
+      user: { select: { name: true } },
+      items: {
+        select: {
+          quantity: true,
+          unitPrice: true,
+          product: { select: { name: true } },
+        },
+      },
+    },
+  });
+
+  if (!order) {
+    res.status(404).json({ message: "Pedido não encontrado." });
+    return
   }
 
-  /*async updateAmount(req: Request, res: Response) { // fazer ainda inclopeto
-    const paramsSchema = z.object({
-      id: z.string().uuid(), 
-    });
-    const bodySchema = z.object({
-      totalAmount: 
-    });
-    const { totalAmount } = bodySchema.parse(req.body);
+  const totalAmount = order.items.reduce((acc, item) => {
+    return acc + item.quantity * item.unitPrice;
+  }, 0);
 
-    const { id } = paramsSchema.parse(req.params);
-
-    await prisma.order.update({ where: { id }, data: {  } });
-
-    res.json("status do pedido atualizado");
-  }*/
+  res.json({ ...order, totalAmount });
 }
 
+}
 export { OrdersController };
