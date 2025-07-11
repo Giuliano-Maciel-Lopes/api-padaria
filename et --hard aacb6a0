@@ -1,0 +1,21 @@
+[33m596ba91[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m HEAD@{0}: reset: moving to HEAD~1
+[33mf480397[m HEAD@{1}: reset: moving to HEAD~1
+[33m0eabb0f[m HEAD@{2}: reset: moving to HEAD~1
+[33m878f2c9[m HEAD@{3}: reset: moving to HEAD~1
+[33maacb6a0[m HEAD@{4}: commit: perf: para melhora do consumo da api
+[33m878f2c9[m HEAD@{5}: commit: feat: rota para vizaulizaçao de um produto criada
+[33m0eabb0f[m HEAD@{6}: commit: aceitando imagem no front end apos o bug
+[33mf480397[m HEAD@{7}: commit: multer modificado para receber imagens por categoria
+[33m596ba91[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m HEAD@{8}: commit: servindo a api e add fotos na pasta public e sedds criados
+[33m99ea84f[m HEAD@{9}: commit: antes de ligar na api
+[33m43f09b2[m HEAD@{10}: commit: separando os schema dos controllers
+[33m90a12c5[m HEAD@{11}: commit: tabela com ft alterado update alterado para
+[33m7b719ea[m HEAD@{12}: commit: sessao orders e ordersitens criadas e metodos inseridos
+[33m25d2f5f[m HEAD@{13}: commit: bugs corrigidos e sessão products do dia compelas
+[33m62f2396[m HEAD@{14}: commit: user infoe sedd criados
+[33m3500ad0[m HEAD@{15}: commit: metodos delete , update , index... sessao products concluida
+[33mc562e22[m HEAD@{16}: commit: sessão cadatro de products criado , obs: inserir outros metodos
+[33m83b84b9[m HEAD@{17}: commit: middlaware de auth e verify craidos e sessao uplods inclopeta
+[33m8e1ff48[m HEAD@{18}: commit: Sessão de cadastro de usuário concluída.
+[33mb94094d[m HEAD@{19}: commit: tabelas do bd i e middlaware erros inseridos
+[33m763394f[m HEAD@{20}: commit (initial): Base do projeto pronta: rotas, banco de dados e configuração inicial

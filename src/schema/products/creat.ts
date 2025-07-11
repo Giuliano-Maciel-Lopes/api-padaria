@@ -15,8 +15,7 @@ export const createProductSchema = z.object({
     .number({ message: "O preço deve ser um número." })
     .positive({ message: "O preço deve ser positivo." }),
   imageUrl: z
-    .string()
-    .url({ message: "A imagem deve ser uma URL válida." })
+    .string()  
     .optional(),
 });
 
