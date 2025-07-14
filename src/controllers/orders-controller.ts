@@ -27,14 +27,14 @@ class OrdersController {
         .json({ message: "Pedido criado com sucesso!", orders: newOrders });
       return;
     }
-    res.status(200).json({ message: "Pedido em andamento já existe." });
+    res.status(200).json({ message: "Pedido em andamento já existe." , orders: orders[0] });
   }
 
   async index(req: Request, res: Response) {
-    const isAdm = req.user?.role ==="ADMIN"
+    const isAdm = req.user?.role === "ADMIN";
 
     const ordersUser = await prisma.order.findMany({
-      where: isAdm? {} :{ userId: req.user?.id },
+      where: isAdm ? {} : { userId: req.user?.id },
 
       select: {
         totalAmount: true,
@@ -52,7 +52,7 @@ class OrdersController {
           select: { name: true },
         },
       },
-    } );
+    });
 
     const ordersWithTotal = ordersUser.map((order) => {
       const totalAmount = order.items.reduce((acc, item) => {
@@ -87,46 +87,58 @@ class OrdersController {
     res.json("status do pedido atualizado para " + update.status);
   }
   async delete(req: Request, res: Response) {
-      
-    
+    const paramsSchema = z.object({
+      id: z.string().uuid(),
+    });
+    const { id } = paramsSchema.parse(req.params);
 
-   }
+    // 1. Deleta itens do pedido
+    await prisma.orderItem.deleteMany({
+      where: { orderId: id },
+    });
 
-  async show(req: Request, res: Response):Promise <void> {
-  const paramsSchema = z.object({
-    id: z.string().uuid(),
-  });
+    // 2. Deleta o pedido
+    await prisma.order.delete({
+      where: { id },
+    });
 
-  const { id } = paramsSchema.parse(req.params);
-
-  const order = await prisma.order.findUnique({
-    where: { id },
-    select: {
-      id: true,
-      status: true,
-      totalAmount: true,
-      user: { select: { name: true } },
-      items: {
-        select: {
-          quantity: true,
-          unitPrice: true,
-          product: { select: { name: true } },
-        },
-      },
-    },
-  });
-
-  if (!order) {
-    res.status(404).json({ message: "Pedido não encontrado." });
-    return
+    res.status(200).json({ message: "Pedido cancelado com sucesso." });
   }
 
-  const totalAmount = order.items.reduce((acc, item) => {
-    return acc + item.quantity * item.unitPrice;
-  }, 0);
+  async show(req: Request, res: Response): Promise<void> {
+    const paramsSchema = z.object({
+      id: z.string().uuid(),
+    });
 
-  res.json({ ...order, totalAmount });
-}
+    const { id } = paramsSchema.parse(req.params);
 
+    const order = await prisma.order.findUnique({
+      where: { id },
+      select: {
+        id: true,
+        status: true,
+        totalAmount: true,
+        user: { select: { name: true } },
+        items: {
+          select: {
+            quantity: true,
+            unitPrice: true,
+            product: { select: { name: true } },
+          },
+        },
+      },
+    });
+
+    if (!order) {
+      res.status(404).json({ message: "Pedido não encontrado." });
+      return;
+    }
+
+    const totalAmount = order.items.reduce((acc, item) => {
+      return acc + item.quantity * item.unitPrice;
+    }, 0);
+
+    res.json({ ...order, totalAmount });
+  }
 }
 export { OrdersController };
