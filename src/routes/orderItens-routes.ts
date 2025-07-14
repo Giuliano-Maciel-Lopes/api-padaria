@@ -7,6 +7,8 @@ const ordersItensRoutes = Router()
 const ordersItensController= new OrdersItensController
 
 
-ordersItensRoutes.post("/:orderid" , ordersItensController.create)
+ordersItensRoutes.post("/:orderId" , ordersItensController.create)
+ordersItensRoutes.patch("/:orderId/:orderItemId" , ordersItensController.updateQuantity)
+ordersItensRoutes.get("/:orderId" , ordersItensController.index)
 
 export {ordersItensRoutes}

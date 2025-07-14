@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 export const orderItensParamsSchema = z.object({
-  orderid: z.string().uuid({ message: "ID inválido, deve ser um UUID" }),
+  orderId: z.string().uuid({ message: "ID inválido, deve ser um UUID" }),
 });
 
 export const createOrderItemsSchema = z.object({
