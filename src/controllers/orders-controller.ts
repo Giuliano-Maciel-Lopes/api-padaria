@@ -27,7 +27,9 @@ class OrdersController {
         .json({ message: "Pedido criado com sucesso!", orders: newOrders });
       return;
     }
-    res.status(200).json({ message: "Pedido em andamento já existe." , orders: orders[0] });
+    res
+      .status(200)
+      .json({ message: "Pedido em andamento já existe.", orders: orders[0] });
   }
 
   async index(req: Request, res: Response) {
@@ -45,7 +47,7 @@ class OrdersController {
           select: {
             quantity: true,
             unitPrice: true,
-            product: { select: { name: true } },
+            product: { select: { name: true, imageUrl: true, category: true } },
           },
         },
         user: {
@@ -54,18 +56,7 @@ class OrdersController {
       },
     });
 
-    const ordersWithTotal = ordersUser.map((order) => {
-      const totalAmount = order.items.reduce((acc, item) => {
-        return acc + item.quantity * item.unitPrice;
-      }, 0);
-
-      return {
-        ...order, // espalha os dados do pedido atual (order)
-        totalAmount, // adiciona o total calculado
-      };
-    });
-
-    res.json(ordersWithTotal);
+    res.json(ordersUser);
   }
 
   async updateStatus(req: Request, res: Response) {
@@ -134,11 +125,7 @@ class OrdersController {
       return;
     }
 
-    const totalAmount = order.items.reduce((acc, item) => {
-      return acc + item.quantity * item.unitPrice;
-    }, 0);
-
-    res.json({ ...order, totalAmount });
+    res.json({ order });
   }
 }
 export { OrdersController };
