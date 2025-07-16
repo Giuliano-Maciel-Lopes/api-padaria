@@ -45,6 +45,7 @@ class OrdersController {
 
         items: {
           select: {
+            id: true,
             quantity: true,
             unitPrice: true,
             product: { select: { name: true, imageUrl: true, category: true } },

@@ -23,17 +23,27 @@ class OrdersItensController {
     const products = await prisma.orderItem.findMany({ where: { orderId } });
     res.json(products);
   }
+   async remove(req: Request, res: Response) {
+  const {id} = orderItemIdParamsSchema.parse(req.params)
+
+  await prisma.orderItem.deleteMany({where:{id}})
+
+    
+    res.json("Product removido")
+   }
+  
 
   async updateQuantity(req: Request, res: Response) {
     const { quantity } = schemaBodyQuantity.parse(req.body);
 
-    const { orderItemId } = orderItemIdParamsSchema.parse(req.params);
+    const { id } = orderItemIdParamsSchema.parse(req.params);
 
     const product = await prisma.orderItem.updateMany({
       data: { quantity },
-      where: { id: orderItemId },
+      where: { id },
     });
     res.json("alterada quantidade de product");
   }
+  
 }
 export { OrdersItensController };

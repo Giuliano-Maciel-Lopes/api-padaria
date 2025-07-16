@@ -6,5 +6,5 @@ export const schemaBodyQuantity = z.object({
 
 
 export const orderItemIdParamsSchema = z.object({
-  orderItemId: z.string().uuid(), // ou cuid() se for cuid()
+  id: z.string().uuid(), 
 });
