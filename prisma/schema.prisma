@@ -23,6 +23,8 @@ datasource db {
 enum OrderStatus {
   PROCESSING
   SHIPPED
+  COMPLETE
+  ORDER_FINISH
   DELIVERED
 }
 

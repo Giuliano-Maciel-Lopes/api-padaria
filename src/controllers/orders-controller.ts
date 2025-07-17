@@ -1,5 +1,4 @@
 import { prisma } from "@/database/prisma.js";
-import { promises } from "dns";
 import { Request, Response } from "express";
 import z from "zod";
 
