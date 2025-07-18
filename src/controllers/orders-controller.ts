@@ -1,6 +1,8 @@
 import { prisma } from "@/database/prisma.js";
 import { Request, Response } from "express";
 import z from "zod";
+import { paramsSchema, bodySchema } from "@/schema/orders/updatestaatus.js";
+import { updateBodySchemaIsHome } from "@/schema/orders/updateishome.js";
 
 class OrdersController {
   async create(req: Request, res: Response): Promise<void> {
@@ -41,6 +43,8 @@ class OrdersController {
         totalAmount: true,
         status: true,
         id: true,
+        isHome:true,
+        
 
         items: {
           select: {
@@ -60,27 +64,28 @@ class OrdersController {
   }
 
   async updateStatus(req: Request, res: Response) {
-    const paramsSchema = z.object({
-      idOrders: z.string().uuid(),
-    });
-    const bodySchema = z.object({
-      status: z.enum(["PROCESSING", "SHIPPED", "DELIVERED"]),
-    });
+    
     const { status } = bodySchema.parse(req.body);
 
-    const { idOrders } = paramsSchema.parse(req.params);
+    const { id } = paramsSchema.parse(req.params);
 
     const update = await prisma.order.update({
-      where: { id: idOrders },
+      where: { id },
       data: { status },
     });
 
     res.json("status do pedido atualizado para " + update.status);
   }
+   async updateIsHome(req: Request, res: Response) {
+    const{id} =paramsSchema.parse(req.params)
+    const { isHome } = updateBodySchemaIsHome.parse(req.body);
+     
+    await prisma.order.update({where:{id},data:{isHome}})
+
+    res.status(200).json({ message: "Status de entrega atualizado com sucesso." }); 
+   }
   async delete(req: Request, res: Response) {
-    const paramsSchema = z.object({
-      id: z.string().uuid(),
-    });
+    
     const { id } = paramsSchema.parse(req.params);
 
     // 1. Deleta itens do pedido
@@ -97,9 +102,7 @@ class OrdersController {
   }
 
   async show(req: Request, res: Response): Promise<void> {
-    const paramsSchema = z.object({
-      id: z.string().uuid(),
-    });
+   
 
     const { id } = paramsSchema.parse(req.params);
 

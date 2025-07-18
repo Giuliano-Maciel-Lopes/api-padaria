@@ -11,14 +11,18 @@ const ordersController = new OrdersController();
 
 ordersRoutes.post("/", ordersController.create);
 ordersRoutes.patch(
-  "/:idOrders/status",
+  "/status/:id",
   verifyUserAuthorization([Role.DELIVERED, Role.STOCK, Role.ADMIN]),
   ordersController.updateStatus
 );
+ordersRoutes.patch("/isHome/:id", ordersController.updateIsHome);
 
 ordersRoutes.get("/", ordersController.index);
-ordersRoutes.get("/:id", ordersController.show)
-ordersRoutes.delete("/:id", verifyUserAuthorization([Role.ADMIN ,Role.STOCK]), ordersController.delete) 
-
+ordersRoutes.get("/:id", ordersController.show);
+ordersRoutes.delete(
+  "/:id",
+  verifyUserAuthorization([Role.ADMIN, Role.STOCK]),
+  ordersController.delete
+);
 
 export { ordersRoutes };
