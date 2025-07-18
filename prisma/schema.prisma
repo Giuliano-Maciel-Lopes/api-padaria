@@ -13,7 +13,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-   enum Role {
+enum Role {
   CUSTOMER
   ADMIN
   STOCK
@@ -29,102 +29,99 @@ enum OrderStatus {
 }
 
 model User {
-  id        String     @id @default(uuid())
+  id        String   @id @default(uuid())
   name      String
-  email     String     @unique
+  email     String   @unique
   password  String
-  role      Role       @default(CUSTOMER)
-  createdAt DateTime   @default(now()) @map("created_at")
-  updatedAt DateTime   @default(now()) @updatedAt @map("updated_at")
+  role      Role     @default(CUSTOMER)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
 
-  userInfo  UserInfo[]
-  orders    Order[]
+  userInfo UserInfo[]
+  orders   Order[]
 
   @@map("users")
 }
 
 model UserInfo {
-  id           String     @id @default(uuid())
-  userId       String     @map("user_id")
+  id           String   @id @default(uuid())
+  userId       String   @map("user_id")
   address      String
   neighborhood String
   city         String
-  phoneNumber  String     @map("phone_number")
-  createdAt    DateTime   @default(now()) @map("created_at")
-  updatedAt    DateTime   @default(now()) @updatedAt @map("updated_at")
+  phoneNumber  String   @map("phone_number")
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @default(now()) @updatedAt @map("updated_at")
 
-  user         User       @relation(fields: [userId], references: [id])
-  
+  user User @relation(fields: [userId], references: [id])
 
   @@map("user_infos")
 }
 
 model Product {
-  id          String       @id @default(uuid())
+  id          String   @id @default(uuid())
   name        String
   description String?
-  category  String
-  imageUrl    String?       
+  category    String
+  imageUrl    String?
   price       Float
-  createdAt   DateTime     @default(now()) @map("created_at")
-  updatedAt   DateTime     @default(now()) @updatedAt @map("updated_at")
+  isVitrine  Boolean  @default(false) 
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @default(now()) @updatedAt @map("updated_at")
 
-  orderItems  OrderItem[]
-  stockByDay  ProductDay[]
+  orderItems OrderItem[]
+  stockByDay ProductDay[]
 
   @@map("products")
 }
 
 model DayOfWeek {
-  id        String       @id @default(uuid())
+  id        String   @id @default(uuid())
   name      String
-  createdAt DateTime     @default(now()) @map("created_at")
+  createdAt DateTime @default(now()) @map("created_at")
 
-  products  ProductDay[]
+  products ProductDay[]
 
   @@map("days_of_week")
 }
 
 model ProductDay {
-  id          String    @id @default(uuid())
-  productId   String    @map("product_id")
-  dayOfWeekId String    @map("day_of_week_id")
-  stock       Int       @default(0)
-  createdAt   DateTime  @default(now()) @map("created_at")
-  updatedAt   DateTime  @default(now()) @updatedAt @map("updated_at")
+  id          String   @id @default(uuid())
+  productId   String   @map("product_id")
+  dayOfWeekId String   @map("day_of_week_id")
+  stock       Int      @default(0)
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @default(now()) @updatedAt @map("updated_at")
 
-  product     Product   @relation(fields: [productId], references: [id])
-  dayOfWeek   DayOfWeek @relation(fields: [dayOfWeekId], references: [id])
+  product   Product   @relation(fields: [productId], references: [id])
+  dayOfWeek DayOfWeek @relation(fields: [dayOfWeekId], references: [id])
 
   @@map("product_days")
 }
 
 model Order {
-  id                   String       @id @default(uuid())
-  userId               String       @map("user_id")
- totalAmount Float @default(0) @map("total_amount")
-  status               OrderStatus  @default(PROCESSING)
-  createdAt            DateTime     @default(now()) @map("created_at")
-  user                 User         @relation(fields: [userId], references: [id])
+  id          String      @id @default(uuid())
+  userId      String      @map("user_id")
+  totalAmount Float       @default(0) @map("total_amount")
+  status      OrderStatus @default(PROCESSING)
+  createdAt   DateTime    @default(now()) @map("created_at")
+  isHome      Boolean     @default(false)
+  user        User        @relation(fields: [userId], references: [id])
 
-  items                OrderItem[]
-
+  items OrderItem[]
 
   @@map("orders")
 }
 
 model OrderItem {
-  id         String  @id @default(uuid())
-  orderId    String  @map("order_id")
-  productId  String  @map("product_id")
-  quantity   Int
-  unitPrice  Float   @map("unit_price")
+  id        String @id @default(uuid())
+  orderId   String @map("order_id")
+  productId String @map("product_id")
+  quantity  Int
+  unitPrice Float  @map("unit_price")
 
-  order      Order   @relation(fields: [orderId], references: [id])
-  product    Product @relation(fields: [productId], references: [id])
+  order   Order   @relation(fields: [orderId], references: [id])
+  product Product @relation(fields: [productId], references: [id])
 
   @@map("order_items")
 }
-
-
-
