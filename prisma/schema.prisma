@@ -37,7 +37,7 @@ model User {
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
 
-  userInfo UserInfo[]
+    userInfo UserInfo?
   orders   Order[]
 
   @@map("users")
@@ -45,7 +45,7 @@ model User {
 
 model UserInfo {
   id           String   @id @default(uuid())
-  userId       String   @map("user_id")
+  userId String @unique @map("user_id") 
   street       String
   houseNumber  String   @map("house_number")
   neighborhood String
