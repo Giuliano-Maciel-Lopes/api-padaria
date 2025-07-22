@@ -16,7 +16,7 @@ export const updateProductBodySchema = z.object({
 
   category: optionalNonEmptyString().transform((val) => val?.toLowerCase()),
 
-  price: z.number().positive().optional(),
+ price: z.coerce.number().positive().optional(),
 
   imageUrl: z.string().optional(),
 });

@@ -21,7 +21,6 @@ routes.use("/products" , productsRouter)
 
 routes.use(ensureAuth)
 routes.use("/uploads" , uploadsRoutes)
-
 routes.use("/user_infos" , userInfoRoutes)
 routes.use("/products_day" , productsDayRoutes)
 routes.use("/orders" , ordersRoutes)

@@ -46,10 +46,11 @@ model User {
 model UserInfo {
   id           String   @id @default(uuid())
   userId       String   @map("user_id")
-  address      String
+  street       String
+  houseNumber  String   @map("house_number")
   neighborhood String
   city         String
-  phoneNumber  String   @map("phone_number")
+  phone        String   @map("phone") 
   createdAt    DateTime @default(now()) @map("created_at")
   updatedAt    DateTime @default(now()) @updatedAt @map("updated_at")
 
@@ -57,6 +58,7 @@ model UserInfo {
 
   @@map("user_infos")
 }
+
 
 model Product {
   id          String   @id @default(uuid())

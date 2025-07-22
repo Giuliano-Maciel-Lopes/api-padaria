@@ -1,8 +1,8 @@
 import { prisma } from "@/database/prisma.js";
 import { Request, Response } from "express";
-import z from "zod";
 import { paramsSchema, bodySchema } from "@/schema/orders/updatestaatus.js";
 import { updateBodySchemaIsHome } from "@/schema/orders/updateishome.js";
+import { orderStatusQuerySchema } from "@/schema/orders/indexorder.js";
 
 class OrdersController {
   async create(req: Request, res: Response): Promise<void> {
@@ -35,16 +35,18 @@ class OrdersController {
 
   async index(req: Request, res: Response) {
     const isAdm = req.user?.role === "ADMIN";
+    const { status } = orderStatusQuerySchema.parse(req.query);
+    const baseWhere = isAdm ? {} : { userId: req.user?.id };
+    const statusrole = status ? { ...baseWhere, status } : baseWhere;
 
     const ordersUser = await prisma.order.findMany({
-      where: isAdm ? {} : { userId: req.user?.id },
+      where: statusrole,
 
       select: {
         totalAmount: true,
         status: true,
         id: true,
-        isHome:true,
-        
+        isHome: true,
 
         items: {
           select: {
@@ -55,7 +57,10 @@ class OrdersController {
           },
         },
         user: {
-          select: { name: true },
+          select: {
+            name: true,
+           
+          },
         },
       },
     });
@@ -64,7 +69,6 @@ class OrdersController {
   }
 
   async updateStatus(req: Request, res: Response) {
-    
     const { status } = bodySchema.parse(req.body);
 
     const { id } = paramsSchema.parse(req.params);
@@ -76,16 +80,17 @@ class OrdersController {
 
     res.json("status do pedido atualizado para " + update.status);
   }
-   async updateIsHome(req: Request, res: Response) {
-    const{id} =paramsSchema.parse(req.params)
+  async updateIsHome(req: Request, res: Response) {
+    const { id } = paramsSchema.parse(req.params);
     const { isHome } = updateBodySchemaIsHome.parse(req.body);
-     
-    await prisma.order.update({where:{id},data:{isHome}})
 
-    res.status(200).json({ message: "Status de entrega atualizado com sucesso." }); 
-   }
+    await prisma.order.update({ where: { id }, data: { isHome } });
+
+    res
+      .status(200)
+      .json({ message: "Status de entrega atualizado com sucesso." });
+  }
   async delete(req: Request, res: Response) {
-    
     const { id } = paramsSchema.parse(req.params);
 
     // 1. Deleta itens do pedido
@@ -102,8 +107,6 @@ class OrdersController {
   }
 
   async show(req: Request, res: Response): Promise<void> {
-   
-
     const { id } = paramsSchema.parse(req.params);
 
     const order = await prisma.order.findUnique({

@@ -11,7 +11,7 @@ export const createProductSchema = z.object({
     .trim()
     .min(1, { message: "Adicione uma categoria válida." })
     .transform((val) => val.toLowerCase()),
-  price: z
+  price: z.coerce
     .number({ message: "O preço deve ser um número." })
     .positive({ message: "O preço deve ser positivo." }),
   imageUrl: z
