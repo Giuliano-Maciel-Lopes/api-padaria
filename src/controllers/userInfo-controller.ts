@@ -11,6 +11,16 @@ class UserInfoController {
         .json({ message: "Usuário não autenticado , conecta-se a uma conta" });
       return;
     }
+    const existingUserInfo = await prisma.userInfo.findUnique({
+      where: { userId: req.user.id },
+    });
+
+    if (existingUserInfo) {
+      res.status(400).json({
+        message: "Usuário já possui informações cadastradas.",
+      });
+      return;
+    }
 
     const data = createUserInfoSchema.parse(req.body);
 
@@ -22,11 +32,27 @@ class UserInfoController {
     return;
   }
   async index(req: Request, res: Response): Promise<void> {
+    const role = req.user?.role;
+    const sessionUserId = req.user?.id;
     const { userId } = parasChemaUserInfo.parse(req.params);
 
+    if (role === "CUSTOMER") {
+      if (userId !== sessionUserId) {
+        res.status(403).json({ message: "Acesso negado." });
+        return;
+      }
+    }
+
     const userInfo = await prisma.userInfo.findFirst({
-      where: { userId },
-      include: { user: { select: { name: true } } },
+      where: { userId: sessionUserId },
+      select: {
+        id:true,
+        city: true,
+        houseNumber: true,
+        phone: true,
+        neighborhood: true,
+        street: true,
+      },
     });
 
     res.status(200).json(userInfo);

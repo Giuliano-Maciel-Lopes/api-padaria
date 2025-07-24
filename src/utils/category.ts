@@ -1,11 +1,15 @@
+import { z } from "zod";
+
 export const allowedCategories = [
   "achocolatados",
-  "Bebidas",
-  "Bolos e Tortas",
-  "Combos",
-  "Doces",
-  "Pães",
+  "bebidas",
+  "bolos-e-tortas",
+  "combos",
+  "doces",
+  "paes",
   "queijos",
-  "Salgados",
-  "Sanduíches",
-];
+  "salgados",
+  "sanduiches",
+] as const;
+
+export const schemaCategory = z.enum(allowedCategories);
