@@ -31,20 +31,17 @@ class UserInfoController {
     res.status(201).json("informaçoes do usuario cadastrado");
     return;
   }
+async indexCustomer(req: Request, res: Response): Promise<void> {
+  
+}
   async index(req: Request, res: Response): Promise<void> {
-    const role = req.user?.role;
-    const sessionUserId = req.user?.id;
+
     const { userId } = parasChemaUserInfo.parse(req.params);
 
-    if (role === "CUSTOMER") {
-      if (userId !== sessionUserId) {
-        res.status(403).json({ message: "Acesso negado." });
-        return;
-      }
-    }
+ 
 
     const userInfo = await prisma.userInfo.findFirst({
-      where: { userId: sessionUserId },
+      where: { userId },
       select: {
         id:true,
         city: true,

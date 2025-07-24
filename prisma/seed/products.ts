@@ -8,21 +8,21 @@ const products = [
     category: "achocolatados",
     price: 6.49,
     description: "Chocolate em pó para bebidas e receitas.",
-    imageUrl: "/fotos/achocolatados/chocolate-em-po.png",
+    imageUrl: "/fotos/achocolatados/chocolate em po.png",
   },
   {
     name: "creme de leite",
     category: "achocolatados",
     price: 3.99,
     description: "Creme de leite fresco para diversas preparações.",
-    imageUrl: "/fotos/achocolatados/creme-de-leite.png",
+    imageUrl: "/fotos/achocolatados/creme de leite.png",
   },
   {
     name: "leite em pó",
     category: "achocolatados",
     price: 4.99,
     description: "Leite em pó de alta qualidade e sabor.",
-    imageUrl: "/fotos/achocolatados/leite-em-po.png",
+    imageUrl: "/fotos/achocolatados/leite em po.png",
   },
   {
     name: "nescau",
@@ -78,32 +78,32 @@ const products = [
 
   // BOLOS E TORTAS
   {
-    name: "bolo de morango",
+    name: "bola de morango",
     category: "bolos-e-tortas",
     price: 14.99,
     description: "Bolo de morango fresco e saboroso.",
-    imageUrl: "/fotos/bolos-e-tortas/bolo-de-morango.png",
+    imageUrl: "/fotos/bolos-e-tortas/bola de morango.png",
   },
   {
     name: "bolo de oreo",
     category: "bolos-e-tortas",
     price: 17.99,
     description: "Bolo cremoso com pedaços de Oreo.",
-    imageUrl: "/fotos/bolos-e-tortas/bolo-de-oreo.png",
+    imageUrl: "/fotos/bolos-e-tortas/bolo de oreo.png",
   },
   {
     name: "bolo de chocolate",
     category: "bolos-e-tortas",
     price: 13.99,
     description: "Bolo de chocolate delicioso e macio.",
-    imageUrl: "/fotos/bolos-e-tortas/bolo-de-chocolate.png",
+    imageUrl: "/fotos/bolos-e-tortas/bolo_de_chocolate.png",
   },
   {
     name: "torta de frutas",
     category: "bolos-e-tortas",
     price: 15.99,
     description: "Torta com frutas frescas e creme suave.",
-    imageUrl: "/fotos/bolos-e-tortas/torta-de-frutas.png",
+    imageUrl: "/fotos/bolos-e-tortas/torta_de_frutas.png",
   },
 
   // COMBOS
@@ -112,14 +112,14 @@ const products = [
     category: "combos",
     price: 19.99,
     description: "Combo especial para seu café da manhã.",
-    imageUrl: "/fotos/combos/combo-cafe-da-manha.png",
+    imageUrl: "/fotos/combos/combo cafe da manha.png",
   },
   {
     name: "combo de salgados",
     category: "combos",
     price: 24.99,
     description: "Variedade de salgados para seu lanche.",
-    imageUrl: "/fotos/combos/combo-de-salgados.png",
+    imageUrl: "/fotos/combos/combo de salgados.png",
   },
 
   // DOCES
@@ -128,7 +128,7 @@ const products = [
     category: "doces",
     price: 5.99,
     description: "Doce de leite caseiro e cremoso.",
-    imageUrl: "/fotos/doces/doce-de-leite.png",
+    imageUrl: "/fotos/doces/doce de leite.png",
   },
   {
     name: "macarone",
@@ -149,7 +149,7 @@ const products = [
     category: "doces",
     price: 11.99,
     description: "Panqueca doce com chocolate e sorvete.",
-    imageUrl: "/fotos/doces/panqueca-de-chocolate-e-sorvete.png",
+    imageUrl: "/fotos/doces/panqueca de chocolate e sorvete.png",
   },
   {
     name: "rosquinhas",
@@ -159,7 +159,7 @@ const products = [
     imageUrl: "/fotos/doces/rosquinhas.png",
   },
 
-  // PAES
+  // PÃES
   {
     name: "croissant",
     category: "paes",
@@ -168,25 +168,25 @@ const products = [
     imageUrl: "/fotos/paes/croissant.png",
   },
   {
-    name: "paes de queijo",
+    name: "pães de queijo",
     category: "paes",
     price: 5.49,
     description: "Pães de queijo quentinhos e saborosos.",
-    imageUrl: "/fotos/paes/paes-de-queijo.png",
+    imageUrl: "/fotos/paes/paes de queijo.png",
   },
   {
-    name: "pao doce",
+    name: "pão doce",
     category: "paes",
     price: 3.99,
     description: "Pão doce macio com toque especial.",
-    imageUrl: "/fotos/paes/pao-doce.png",
+    imageUrl: "/fotos/paes/pao doce.png",
   },
   {
-    name: "pao frances",
+    name: "pão francês",
     category: "paes",
     price: 2.99,
     description: "Pão francês fresquinho do dia.",
-    imageUrl: "/fotos/paes/pao-frances.png",
+    imageUrl: "/fotos/paes/pao frances.png",
   },
 
   // QUEIJOS
@@ -195,35 +195,35 @@ const products = [
     category: "queijos",
     price: 9.99,
     description: "Queijo branco caseiro, sabor tradicional.",
-    imageUrl: "/fotos/queijos/queijo-branco-caseiro.png",
+    imageUrl: "/fotos/queijos/queijo branco caseiro.png",
   },
   {
     name: "queijo coalho",
     category: "queijos",
     price: 11.99,
     description: "Queijo coalho perfeito para churrasco.",
-    imageUrl: "/fotos/queijos/queijo-coalho.png",
+    imageUrl: "/fotos/queijos/queijo coalho.png",
   },
   {
     name: "queijo gorgonzola",
     category: "queijos",
     price: 14.99,
     description: "Queijo gorgonzola forte e cremoso.",
-    imageUrl: "/fotos/queijos/queijo-gorgonzola.png",
+    imageUrl: "/fotos/queijos/queijo gorgonzola.png",
   },
   {
     name: "queijo gourmet",
     category: "queijos",
     price: 13.99,
     description: "Queijo gourmet para paladares exigentes.",
-    imageUrl: "/fotos/queijos/queijo-gourmet.png",
+    imageUrl: "/fotos/queijos/queijo gourmet.png",
   },
   {
     name: "queijo minas",
     category: "queijos",
     price: 10.99,
     description: "Queijo minas tradicional mineiro.",
-    imageUrl: "/fotos/queijos/queijo-minas.png",
+    imageUrl: "/fotos/queijos/queijo minas.png",
   },
 
   // SALGADOS
@@ -256,13 +256,13 @@ const products = [
     imageUrl: "/fotos/salgados/pastel.png",
   },
 
-  // SANDUICHES
+  // SANDUÍCHES
   {
-    name: "sanduiche alface tomate",
+    name: "sanduíche alface tomate",
     category: "sanduiches",
     price: 6.99,
     description: "Sanduíche leve com alface e tomate.",
-    imageUrl: "/fotos/sanduiches/sanduiche-alface-tomate.png",
+    imageUrl: "/fotos/sanduiches/sanduiche alface tomate.png",
   },
 ];
 

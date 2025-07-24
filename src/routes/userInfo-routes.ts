@@ -12,7 +12,8 @@ const userInfoRoutes = Router()
 const userInfoController = new UserInfoController
 
 userInfoRoutes.post("/", userInfoController.create);
-userInfoRoutes.get("/:userId", verifyUserAuthorization([Role.ADMIN , Role.CUSTOMER , Role.DELIVERED] ) , userInfoController.index);
+userInfoRoutes.get("/:userId", verifyUserAuthorization([Role.CUSTOMER] ) , userInfoController.index);
+
 
 
 

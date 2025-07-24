@@ -17,9 +17,9 @@ class ProductsController {
     res.status(201).json({ message: "Produto cadastrado com sucesso." });
   }
   async index(req: Request, res: Response) {
-    const { category } = indexProductQuerySchema.parse(req.query);
+    const { category , isVitrine} = indexProductQuerySchema.parse(req.query);
     const products = await prisma.product.findMany({
-      where: { category: category },
+      where: { category,  isVitrine},
       orderBy: { price: "asc" },
     });
     res.status(200).json(products);
