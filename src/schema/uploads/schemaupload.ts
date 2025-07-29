@@ -19,24 +19,19 @@ const uploadFileSchema = z.object({
     ),
 }).passthrough();
 
-const uploadCategorySchema = z
-  .string()
-  .min(1, "Categoria é obrigatória")
-  .refine((value) => allowedCategories.includes(value), {
-    message: "Categoria inválida",
-  });
+const uploadCategorySchema = z.enum(allowedCategories, {
+  errorMap: () => ({ message: "Categoria inválida" }),
+});
 
 export const uploadCombinedSchema = z
   .object({
     file: uploadFileSchema.optional(),
-    category: z.string().optional(),
+    category: uploadCategorySchema.optional(),
   })
   .refine((data) => {
-    // Se tem arquivo, categoria deve ser obrigatória e válida
     if (data.file) {
       return data.category !== undefined && allowedCategories.includes(data.category);
     }
-    // Se não tem arquivo, categoria pode ser opcional
     return true;
   }, {
     message: "Categoria é obrigatória quando o arquivo é enviado",

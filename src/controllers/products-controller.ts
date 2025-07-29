@@ -49,11 +49,11 @@ class ProductsController {
       res.status(404).json("opss produto nao encontrado!");
     }
 
-    await prisma.product.update({
+   const product = await prisma.product.update({
       where: { id },
       data: data,
     });
-    res.status(201).json("alteraçoes feitas!");
+    res.status(201).json(product);
   }
   async show(req: Request, res: Response) {
     const bodySchema = z.object({

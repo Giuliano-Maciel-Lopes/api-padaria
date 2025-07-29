@@ -16,13 +16,16 @@ class UsersController {
     const checkEmail = await prisma.user.findUnique({ where: { email } });
 
     if (checkEmail) {
-      throw new AppError("esse email já esta vinculado a uma conta!");
+      throw new AppError("esse email já esta vinculado a uma conta! ");
     }
 
-    await prisma.user.create({
+   const user = await prisma.user.create({
       data: { name, email, password: hashedPassword },
     });
-    res.status(200).json("cadastrado");
+
+    const { password: _, ...userWithoutPassword } = user;
+
+    res.status(200).json(userWithoutPassword);
   }
 
    
