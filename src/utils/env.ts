@@ -7,6 +7,9 @@ import z from "zod";
 
 const schemaEnv = z.object({
     DATABASE_URL: z.string().url(),
-    JWT_SECRET: z.string()
+    JWT_SECRET: z.string(),
+    STRIPE_SECRET_KEY:z.string(),
+    URL_FRONT:z.string()
+
 })
  export const env = schemaEnv.parse(process.env)

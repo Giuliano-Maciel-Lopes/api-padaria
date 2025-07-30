@@ -6,19 +6,14 @@ import { orderStatusQuerySchema } from "@/schema/orders/indexorder.js";
 
 class OrdersController {
   async create(req: Request, res: Response): Promise<void> {
-    const userId = req.user?.id;
+    const userId = req.user!.id;
 
-    if (!userId) {
-      res.status(401).json({ message: "Usuário não autenticado." });
-      return;
-    }
-
-    // Verifica se já tem pedido em processamento
-    const orders = await prisma.order.findMany({
+   
+    const orders = await prisma.order.findFirst({
       where: { userId, status: "PROCESSING" },
     });
 
-    if (orders.length === 0) {
+    if (!orders) {
       const newOrders = await prisma.order.create({
         data: { userId },
       });
@@ -28,9 +23,7 @@ class OrdersController {
         .json({ message: "Pedido criado com sucesso!", orders: newOrders });
       return;
     }
-    res
-      .status(200)
-      .json({ message: "Pedido em andamento já existe.", orders: orders[0] });
+    res.json({message:"pedido ja esta em andamento"})
   }
 
   async index(req: Request, res: Response) {
@@ -59,7 +52,6 @@ class OrdersController {
         user: {
           select: {
             name: true,
-           
           },
         },
       },

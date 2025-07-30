@@ -4,7 +4,7 @@ export const orderStatusQuerySchema = z.object({
   status: z.enum([
     "PROCESSING",
     "SHIPPED",
-    "COMPLETE",
+   "ITENS_PROCESSING",
     "ORDER_FINISH",
     "DELIVERED",
   ]).optional()

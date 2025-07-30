@@ -22,8 +22,8 @@ enum Role {
 
 enum OrderStatus {
   PROCESSING
+   ITENS_PROCESSING
   SHIPPED
-  COMPLETE
   ORDER_FINISH
   DELIVERED
 }

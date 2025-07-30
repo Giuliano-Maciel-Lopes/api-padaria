@@ -5,7 +5,7 @@ import { orderItensParamsSchema } from "@/schema/orderItens/create.js";
 import { createOrderItemsSchema } from "@/schema/orderItens/create.js";
 import { schemaBodyQuantity } from "@/schema/orderItens/quantity.js";
 import { orderItemIdParamsSchema } from "@/schema/orderItens/quantity.js";
-import { creatUpsertOrderItems } from "@/services/controller/OrdersItenscreate.js";
+import { creatUpsertOrderItems } from "@/services/controller/orderitens/OrdersItenscreate.js";
 
 class OrdersItensController {
   async create(req: Request, res: Response) {
