@@ -1,62 +1,38 @@
 import { prisma } from "@/database/prisma.js";
 import { AppError } from "@/utils/app-error.js";
-import { Product, OrderItem } from "@prisma/client";
+import { validateProducts } from "./validateProducts.js";
+import { upsertOrderItem } from "./upsertOrderItem.js";
+import { updateTotalAmount } from "./UpdatadeTotal.js";
 
 type OrderItemInput = {
   productId: string;
   quantity: number;
 };
+
 export async function creatUpsertOrderItems(orderId: string, items: OrderItemInput[]) {
-  const productIds = items.map((item) => item.productId);
+  const productIds = items.map((item) => item.productId); //peguei tds ids do product 
 
-  const products = await prisma.product.findMany({
-    where: { id: { in: productIds } },
-  });
-
-  if (products.length !== productIds.length) {
-    throw new AppError("Um ou mais produtos não foram encontrados.", 404);
-  }
+  // Valida se todos os produtos existem
+  const products = await validateProducts(productIds);
 
   for (const item of items) {
-    const product = products.find((p) => p.id === item.productId);
-    if (!product) continue;
+    const product = products.find((p) => p.id === item.productId); 
+
+    if (!product) continue; // o que nao dev ecocorrer pois validei preucaçao
 
     const existing = await prisma.orderItem.findFirst({
       where: { orderId, productId: item.productId },
     });
 
-    if (existing) {
-      await prisma.orderItem.update({
-        where: { id: existing.id },
-        data: {
-          quantity: existing.quantity + item.quantity,
-        },
-      });
-    } else {
-      await prisma.orderItem.create({
-        data: {
-          orderId,
-          productId: item.productId,
-          quantity: item.quantity,
-          unitPrice: product.price,
-        },
-      });
-    }
+    await upsertOrderItem(
+      orderId,
+      existing ? existing.quantity + item.quantity : item.quantity,
+      item.productId,
+      product.price,
+      existing?.id
+    );
   }
 
-  // 👇 Atualiza o valor total do pedido
-  const orderItems = await prisma.orderItem.findMany({
-    where: { orderId },
-    include: { product: true },
-  });
-
-  const totalAmount = orderItems.reduce((sum, item) => {
-    return sum + item.quantity * item.unitPrice;
-  }, 0);
-
-  await prisma.order.update({
-    where: { id: orderId },
-    data: { totalAmount },
-  });
+  // Atualiza o valor total do pedido
+  await updateTotalAmount(orderId);
 }
-
