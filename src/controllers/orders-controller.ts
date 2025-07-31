@@ -23,13 +23,15 @@ class OrdersController {
         .json({ message: "Pedido criado com sucesso!", orders: newOrders });
       return;
     }
-    res.json({message:"pedido ja esta em andamento"})
+    res.json({message:"pedido ja esta em andamento" , orders:orders})
   }
 
   async index(req: Request, res: Response) {
     const isAdm = req.user?.role === "ADMIN";
+
     const { status } = orderStatusQuerySchema.parse(req.query);
-    const baseWhere = isAdm ? {} : { userId: req.user?.id };
+
+    const baseWhere = isAdm ? {} : { userId: req.user?.id }; // admin ver tudo 
     const statusrole = status ? { ...baseWhere, status } : baseWhere;
 
     const ordersUser = await prisma.order.findMany({

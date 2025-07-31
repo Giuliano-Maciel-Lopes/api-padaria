@@ -1,0 +1,195 @@
+[33mcommit 1428e1adc66ba108a129f4e38cc6142969725b3b[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m
+Author: Giuliano Maciel <giulianomaciellopes@gmail.com>
+Date:   Wed Jul 30 16:50:32 2025 -0300
+
+    feat:strip pagamentos
+    
+    refactor: mudança no bd
+
+[33mcommit acbed94bdf4f6637c75f3dca1fd99a0e6b4a4301[m
+Author: Giuliano Maciel <giulianomaciellopes@gmail.com>
+Date:   Tue Jul 29 15:08:19 2025 -0300
+
+    test: add stripe
+
+[33mcommit 8278d2b5eb61e1c80df5cc304c3ff33c2c32fe37[m
+Author: Giuliano Maciel <giulianomaciellopes@gmail.com>
+Date:   Tue Jul 29 15:07:50 2025 -0300
+
+    refactor:melhorias nas repostas para o front
+
+[33mcommit 7d4f5c8af9f1222d8993045c60f24bc71c7d832e[m
+Author: Giuliano Maciel <giulianomaciellopes@gmail.com>
+Date:   Thu Jul 24 13:33:38 2025 -0300
+
+    refactor: products  agora aceita isvitrine e mudanças no zod apos o usehookform
+
+[33mcommit c131b9033aa18fb2b1572e576ccd87846842f82f[m
+Author: Giuliano Maciel <giulianomaciellopes@gmail.com>
+Date:   Thu Jul 24 09:38:27 2025 -0300
+
+    refactor: scema indexcategory alterado e pastas
+
+[33mcommit 34dbe88286de0d0be9e7e506a4525518b3103933[m
+Author: Giuliano Maciel <giulianomaciellopes@gmail.com>
+Date:   Tue Jul 22 13:52:56 2025 -0300
+
+    perf: userinfo(userId) 1 para 1
+
+[33mcommit 3d8c1277dabcc7f312b31d55a16c61ae4697e5de[m
+Author: Giuliano Maciel <giulianomaciellopes@gmail.com>
+Date:   Tue Jul 22 13:45:09 2025 -0300
+
+    refactor:mudanças nas pastas
+    feat: userinfo index inserido
+
+[33mcommit 61f3a37577aba7ddc1b34e0c0d8dbe5b19bcdc5a[m
+Author: Giuliano Maciel <giulianomaciellopes@gmail.com>
+Date:   Fri Jul 18 15:30:47 2025 -0300
+
+    feat :nova rota updateishome
+
+[33mcommit eda00ad09ec660c1b2e0346918812c4abe99a8f8[m
+Author: Giuliano Maciel <giulianomaciellopes@gmail.com>
+Date:   Fri Jul 18 14:29:00 2025 -0300
+
+    perf:mudança no bd
+
+[33mcommit ebbb17e47f4f00d1335d8b414715b2ab370bdafe[m
+Author: Giuliano Maciel <giulianomaciellopes@gmail.com>
+Date:   Thu Jul 17 16:05:41 2025 -0300
+
+    perf:mudancas no bd add novas deliverys
+
+[33mcommit dbc22bf8bcbf594e482b5561b6696ca27d4c0c64[m
+Author: Giuliano Maciel <giulianomaciellopes@gmail.com>
+Date:   Tue Jul 15 22:45:18 2025 -0300
+
+    feat: rota  delete Orders Itens
+    refactor:params de rotas em orderitens
+
+[33mcommit 5f3b0db50df928be849a4e780ad0d407acaa27b8[m
+Author: Giuliano Maciel <giulianomaciellopes@gmail.com>
+Date:   Tue Jul 15 12:32:31 2025 -0300
+
+    perf: Organizaçao do createOrders
+
+[33mcommit 6f65b0e6016fac75572259b37e355c035154ebb6[m
+Author: Giuliano Maciel <giulianomaciellopes@gmail.com>
+Date:   Mon Jul 14 16:59:50 2025 -0300
+
+    perf: mudança para melhora do consumo da api
+
+[33mcommit 061d25f2644df696ab4a813bb8bc694bda8b7063[m
+Author: Giuliano Maciel <giulianomaciellopes@gmail.com>
+Date:   Mon Jul 14 16:59:12 2025 -0300
+
+    refactor: resolvendo porblema de duplicaçao de pedidos
+
+[33mcommit c904a3667c9853b28dccffa5eff100ef1e008b60[m
+Author: Giuliano Maciel <giulianomaciellopes@gmail.com>
+Date:   Fri Jul 11 12:33:19 2025 -0300
+
+    perf:mudancas para melhora da api
+
+[33mcommit aacb6a0ff4eb706cfb61f2a96d85d1c730dd0242[m[33m ([m[1;32mrecuperado[m[33m)[m
+Author: Giuliano Maciel <giulianomaciellopes@gmail.com>
+Date:   Fri Jul 11 12:09:14 2025 -0300
+
+    perf: para melhora do consumo da api
+
+[33mcommit 878f2c93e819910f22efdb90cb6c4963f2e735a7[m
+Author: Giuliano Maciel <giulianomaciellopes@gmail.com>
+Date:   Sun Jul 6 20:57:16 2025 -0300
+
+    feat: rota para vizaulizaçao de um produto criada
+
+[33mcommit 0eabb0fb8b4dfe7c8ea6b3bc5a35ad89329dc233[m
+Author: Giuliano Maciel <giulianomaciellopes@gmail.com>
+Date:   Fri Jul 4 10:39:15 2025 -0300
+
+    aceitando imagem no front end apos o bug
+
+[33mcommit f4803974a10c3d5d1b27d70b3b9595bcf7f318d2[m
+Author: Giuliano Maciel <giulianomaciellopes@gmail.com>
+Date:   Thu Jul 3 22:11:09 2025 -0300
+
+    multer modificado para receber imagens por categoria
+
+[33mcommit 596ba91ef2fdb2a465bd972301b8725e9c907633[m
+Author: Giuliano Maciel <giulianomaciellopes@gmail.com>
+Date:   Sun Jun 29 21:38:00 2025 -0300
+
+    servindo a api e add fotos na pasta public e sedds criados
+
+[33mcommit 99ea84f4a008b66fc8d208975c9c25a18f177d41[m
+Author: Giuliano Maciel <giulianomaciellopes@gmail.com>
+Date:   Fri Jun 27 16:05:06 2025 -0300
+
+    antes de ligar na api
+
+[33mcommit 43f09b2542718257293380df5afef8d80c7976df[m
+Author: Giuliano Maciel <giulianomaciellopes@gmail.com>
+Date:   Fri Jun 20 12:59:41 2025 -0300
+
+    separando os schema dos controllers
+
+[33mcommit 90a12c559551e82f9b832c3380a39b2075bfd4d0[m
+Author: Giuliano Maciel <giulianomaciellopes@gmail.com>
+Date:   Thu Jun 19 12:16:33 2025 -0300
+
+    tabela com ft alterado update alterado  para
+
+[33mcommit 7b719eac8d2cbfcf7826c729a4e0e2359a9ebae6[m
+Author: Giuliano Maciel <giulianomaciellopes@gmail.com>
+Date:   Wed Jun 18 20:42:20 2025 -0300
+
+    sessao orders e ordersitens criadas e metodos inseridos
+
+[33mcommit 25d2f5f2389eefcab83b072a7e6ceef9821ef40f[m
+Author: Giuliano Maciel <giulianomaciellopes@gmail.com>
+Date:   Sat Jun 14 13:45:31 2025 -0300
+
+    bugs corrigidos  e sessão products do dia compelas
+
+[33mcommit 62f2396289c0ad0283f468037bfa9e7340441ed1[m
+Author: Giuliano Maciel <giulianomaciellopes@gmail.com>
+Date:   Fri Jun 13 21:19:38 2025 -0300
+
+    user infoe sedd criados
+
+[33mcommit 3500ad0b504db893be018f46f1e466d867c541c9[m
+Author: Giuliano Maciel <giulianomaciellopes@gmail.com>
+Date:   Thu Jun 12 20:40:14 2025 -0300
+
+    metodos delete , update , index... sessao products concluida
+
+[33mcommit c562e22291170b554f77815ad8eed640f0e65eae[m
+Author: Giuliano Maciel <giulianomaciellopes@gmail.com>
+Date:   Thu Jun 12 17:45:50 2025 -0300
+
+    sessão cadatro de products criado , obs: inserir outros metodos
+
+[33mcommit 83b84b961e6a17755aaaf0bc6dc82e43231adc0c[m
+Author: Giuliano Maciel <giulianomaciellopes@gmail.com>
+Date:   Thu Jun 12 15:12:07 2025 -0300
+
+    middlaware de auth e verify craidos e sessao uplods inclopeta
+
+[33mcommit 8e1ff482f8c4f8565638d386bbc127a16db8776f[m
+Author: Giuliano Maciel <giulianomaciellopes@gmail.com>
+Date:   Wed Jun 11 13:19:50 2025 -0300
+
+    Sessão de cadastro de usuário concluída.
+
+[33mcommit b94094db1c8a0d53da9195995d744e2cbc4e8556[m
+Author: Giuliano Maciel <giulianomaciellopes@gmail.com>
+Date:   Tue Jun 10 15:36:10 2025 -0300
+
+    tabelas do bd i e middlaware erros inseridos
+
+[33mcommit 763394f7b2a5056ab0618869c4052e2c35e9e718[m
+Author: Giuliano Maciel <giulianomaciellopes@gmail.com>
+Date:   Mon Jun 9 16:18:15 2025 -0300
+
+    Base do projeto pronta: rotas, banco de dados e configuração inicial
