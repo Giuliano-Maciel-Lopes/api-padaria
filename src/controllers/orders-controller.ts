@@ -3,12 +3,13 @@ import { Request, Response } from "express";
 import { paramsSchema, bodySchema } from "@/schema/orders/updatestaatus.js";
 import { updateBodySchemaIsHome } from "@/schema/orders/updateishome.js";
 import { orderStatusQuerySchema } from "@/schema/orders/indexorder.js";
+import { orderSelect } from "@/services/controller/order/selectorderindexSHow.js";
+import { Prisma } from "@prisma/client";
 
 class OrdersController {
   async create(req: Request, res: Response): Promise<void> {
     const userId = req.user!.id;
 
-   
     const orders = await prisma.order.findFirst({
       where: { userId, status: "PROCESSING" },
     });
@@ -23,40 +24,34 @@ class OrdersController {
         .json({ message: "Pedido criado com sucesso!", orders: newOrders });
       return;
     }
-    res.json({message:"pedido ja esta em andamento" , orders:orders})
+    res.json({ message: "pedido ja esta em andamento", orders: orders });
   }
 
   async index(req: Request, res: Response) {
     const isAdm = req.user?.role === "ADMIN";
 
-    const { status } = orderStatusQuerySchema.parse(req.query);
+    const { status, search } = orderStatusQuerySchema.parse(req.query);
 
-    const baseWhere = isAdm ? {} : { userId: req.user?.id }; // admin ver tudo 
-    const statusrole = status ? { ...baseWhere, status } : baseWhere;
+    const baseWhere = isAdm ? {} : { userId: req.user?.id };
+
+    const where: Prisma.OrderWhereInput = {  // NOVIDADE ESSA TIPAGEM COM PRISMA RESOLVE O PROBLEMA DO WHERE  
+      ...baseWhere,
+      ...(status && { status }),
+      ...(search && {
+        user: {
+          is: {
+            name: {
+              contains: search,
+              mode: "insensitive",
+            },
+          },
+        },
+      }),
+    };
 
     const ordersUser = await prisma.order.findMany({
-      where: statusrole,
-
-      select: {
-        totalAmount: true,
-        status: true,
-        id: true,
-        isHome: true,
-
-        items: {
-          select: {
-            id: true,
-            quantity: true,
-            unitPrice: true,
-            product: { select: { name: true, imageUrl: true, category: true } },
-          },
-        },
-        user: {
-          select: {
-            name: true,
-          },
-        },
-      },
+      where,
+      select: orderSelect,
     });
 
     res.json(ordersUser);
@@ -101,23 +96,15 @@ class OrdersController {
   }
 
   async show(req: Request, res: Response): Promise<void> {
+    const ADM = req.user?.role === "ADMIN";
+    const userId = req.user?.id;
+    const baseWhere = ADM ? {} : { userId };
+
     const { id } = paramsSchema.parse(req.params);
 
-    const order = await prisma.order.findUnique({
-      where: { id },
-      select: {
-        id: true,
-        status: true,
-        totalAmount: true,
-        user: { select: { name: true } },
-        items: {
-          select: {
-            quantity: true,
-            unitPrice: true,
-            product: { select: { name: true } },
-          },
-        },
-      },
+    const order = await prisma.order.findFirst({
+      where: { ...baseWhere, id },
+      select: orderSelect,
     });
 
     if (!order) {
@@ -125,7 +112,7 @@ class OrdersController {
       return;
     }
 
-    res.json({ order });
+    res.json(order);
   }
 }
 export { OrdersController };

@@ -7,5 +7,6 @@ export const orderStatusQuerySchema = z.object({
    "ITENS_PROCESSING",
     "ORDER_FINISH",
     "DELIVERED",
-  ]).optional()
+  ]).optional(),
+  search: z.string().optional(),
 });
