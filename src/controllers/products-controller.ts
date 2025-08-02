@@ -17,9 +17,15 @@ class ProductsController {
     res.status(201).json({ message: "Produto cadastrado com sucesso." });
   }
   async index(req: Request, res: Response) {
-    const { category , isVitrine} = indexProductQuerySchema.parse(req.query);
+    const { category, isVitrine, search } = indexProductQuerySchema.parse(
+      req.query
+    );
     const products = await prisma.product.findMany({
-      where: { category,  isVitrine},
+      where: {
+        category,
+        isVitrine,
+        name: search ? { contains: search, mode: "insensitive" } : undefined,
+      },
       orderBy: { price: "asc" },
     });
     res.status(200).json(products);
@@ -49,7 +55,7 @@ class ProductsController {
       res.status(404).json("opss produto nao encontrado!");
     }
 
-   const product = await prisma.product.update({
+    const product = await prisma.product.update({
       where: { id },
       data: data,
     });
@@ -67,12 +73,10 @@ class ProductsController {
     res.status(200).json(products);
   }
   async showById(req: Request, res: Response) {
+    const { id } = idParamSchema.parse(req.params);
 
-    const {id} = idParamSchema.parse(req.params)
-
-    const product = await prisma.product.findUnique({where:{id}})
-    res.json(product)
-
+    const product = await prisma.product.findUnique({ where: { id } });
+    res.json(product);
   }
 }
 export { ProductsController };
