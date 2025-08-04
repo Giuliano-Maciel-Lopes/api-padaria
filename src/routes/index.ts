@@ -10,6 +10,7 @@ import { productsDayRoutes } from "./productsDay-routes.js";
 import { ordersRoutes } from "./order-routes.js";
 import { ordersItensRoutes } from "./orderItens-routes.js";
 import { stripeRoutes } from "./striper-routes.js";
+import { reportDayRoutes } from "./reportDay-routes.js";
 
 
 
@@ -27,6 +28,7 @@ routes.use("/products_day" , productsDayRoutes)
 routes.use("/orders" , ordersRoutes)
 routes.use("/orders_itens" , ordersItensRoutes)
 routes.use("/stripe", stripeRoutes)
+routes.use("/report_day" , reportDayRoutes )
 
 
 

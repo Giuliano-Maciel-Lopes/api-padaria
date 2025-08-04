@@ -126,4 +126,16 @@ model OrderItem {
   product Product @relation(fields: [productId], references: [id])
 
   @@map("order_items")
+
+  
 }
+model DailySales {
+  id         String   @id @default(uuid())
+  date       DateTime @unique // ex: 2025-08-02 assim sempre so vai ter apenas 1 por dia
+  totalSales Float
+  totalOrders Int
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  @@map("daily_sales")
+}
+
