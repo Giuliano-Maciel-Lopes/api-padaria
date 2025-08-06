@@ -67,7 +67,7 @@ class OrdersController {
       data: { status },
     });
 
-    res.json("status do pedido atualizado para " + update.status);
+    res.json("status do pedido atualizado  " );
   }
   async updateIsHome(req: Request, res: Response) {
     const { id } = paramsSchema.parse(req.params);

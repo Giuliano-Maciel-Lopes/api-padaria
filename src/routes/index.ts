@@ -20,6 +20,7 @@ const routes = Router()
 routes.use("/users" , usersRoutes)
 routes.use("/sessions" , sessionsRoutes)
 routes.use("/products" , productsRouter)
+routes.use("/stripe", stripeRoutes)
 
 routes.use(ensureAuth)
 routes.use("/uploads" , uploadsRoutes)
@@ -27,7 +28,6 @@ routes.use("/user_infos" , userInfoRoutes)
 routes.use("/products_day" , productsDayRoutes)
 routes.use("/orders" , ordersRoutes)
 routes.use("/orders_itens" , ordersItensRoutes)
-routes.use("/stripe", stripeRoutes)
 routes.use("/report_day" , reportDayRoutes )
 
 

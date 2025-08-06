@@ -1,10 +1,19 @@
 import { Router } from "express";
 import { StripeController } from "@/controllers/stripe-controller.js";
+import { ensureAuth } from "@/middleware/ensureauth.js";
+import express  from "express"
 
-const stripeRoutes =Router()
+const stripeRoutes = Router();
 
-const stripeController = new StripeController
+const stripeController = new StripeController();
+stripeRoutes.post(
+  "/webhook",
+  express.raw({ type: "application/json" }),
+  stripeController.webhook
+);
 
-stripeRoutes.post("/create-checkout-session", stripeController.create)
+stripeRoutes.use(ensureAuth);
 
-export{stripeRoutes}
+stripeRoutes.post("/create-checkout-session", stripeController.create);
+
+export { stripeRoutes };

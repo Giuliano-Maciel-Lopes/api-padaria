@@ -1,11 +1,11 @@
 import { prisma } from "@/database/prisma.js";
 import { ProductsSedd } from "./products.js"; 
-import { dayOfWeekSedd } from "./dayofweek.js";
+import { ReportTestProd } from "./testprod.js";
 
 async function seedPrincipal() {
   try {
     console.log("Running dayOfWeek seed...");
-    await dayOfWeekSedd();
+    await  ReportTestProd();
 
     console.log("Running products seed...");
     await ProductsSedd();
