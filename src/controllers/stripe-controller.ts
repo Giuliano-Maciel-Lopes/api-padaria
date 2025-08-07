@@ -58,39 +58,7 @@ class StripeController {
     }
   }
 
-  async webhook(req: Request, res: Response): Promise<void> {
-  const sig = req.headers["stripe-signature"] as string; // verifco c realmnete veio do stripe
-   console.log("Webhook recebido!");
-  console.log("Headers:", req.headers);
-  console.log("Body:", req.body);
-
-  let event: Stripe.Event;
-
-  try {
-    event = stripe.webhooks.constructEvent(
-      req.body, 
-      sig,
-      env.STRIPE_SECRET_KEY 
-    );
-  } catch (err) {
-    console.error("webbhook falhou:", err);
-    res.status(400).json(`Webhook Error: ${err}`);
-    return;
-  }
-
   
-if(event.type ==="checkout.session.completed"){
- const session = event.data.object
- const orderId = session.metadata?.orderId 
-
- if (orderId) {
-      await prisma.order.update({
-        where: { id: orderId },
-        data: { status: "ITENS_PROCESSING" }, 
-      });
-    }
-}
-}
 
 }
 

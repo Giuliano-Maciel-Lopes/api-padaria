@@ -6,11 +6,7 @@ import express  from "express"
 const stripeRoutes = Router();
 
 const stripeController = new StripeController();
-stripeRoutes.post(
-  "/webhook",
-  express.raw({ type: "application/json" }),
-  stripeController.webhook
-);
+
 
 stripeRoutes.use(ensureAuth);
 
