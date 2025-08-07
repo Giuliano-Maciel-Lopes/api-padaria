@@ -1,7 +1,7 @@
 import uploadConfig from "../config/upload.js"
 import { UploadsController } from "@/controllers/upload-controller.js";
 import { verifyUserAuthorization } from "@/middleware/verifyuserauth.js";
-import { Role } from "@/types/enum..js";
+import { Role } from "@/types/enum.js";
 import { Router } from "express";
 import multer from "multer";
 
@@ -14,7 +14,7 @@ const upload = multer(uploadConfig.MULTER);
 uploadsRoutes.post(
   "/",
   upload.single("file"),
-  verifyUserAuthorization([Role.ADMIN , Role.STOCK]),
+  verifyUserAuthorization(["ADMIN" , "STOCK"]),
   uploadsController.create
 );
 

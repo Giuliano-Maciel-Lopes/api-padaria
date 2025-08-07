@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from "express"
 import { AppError } from "@/utils/app-error.js"
-import { Role } from "@/types/enum..js"
+import type { Role } from "@/types/enum.ts";
+
 
 function verifyUserAuthorization(rolee: Role[]) {
   return (req: Request, res: Response, next: NextFunction) => {
@@ -15,5 +16,4 @@ function verifyUserAuthorization(rolee: Role[]) {
   }
 } 
 export {verifyUserAuthorization}
-// Giuliano: poderia juntar as duas verificações numa só,
-// mas como é para meu portfólio, deixo separado para ficar mais claro.
+

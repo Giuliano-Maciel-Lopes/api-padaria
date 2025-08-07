@@ -2,13 +2,16 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 const products = [
-  // ACHOCOLATADOS
+  // ACHOCOLATADOS - stock 0 e desativados
   {
     name: "chocolate em pó",
     category: "achocolatados",
     price: 6.49,
     description: "Chocolate em pó para bebidas e receitas.",
     imageUrl: "/fotos/achocolatados/chocolate em po.png",
+    stock: 0,
+    isActive: false,
+    isVitrine: false,
   },
   {
     name: "creme de leite",
@@ -16,6 +19,9 @@ const products = [
     price: 3.99,
     description: "Creme de leite fresco para diversas preparações.",
     imageUrl: "/fotos/achocolatados/creme de leite.png",
+    stock: 0,
+    isActive: false,
+    isVitrine: false,
   },
   {
     name: "leite em pó",
@@ -23,6 +29,9 @@ const products = [
     price: 4.99,
     description: "Leite em pó de alta qualidade e sabor.",
     imageUrl: "/fotos/achocolatados/leite em po.png",
+    stock: 0,
+    isActive: false,
+    isVitrine: false,
   },
   {
     name: "nescau",
@@ -30,15 +39,21 @@ const products = [
     price: 4.49,
     description: "Achocolatado em pó saboroso e prático.",
     imageUrl: "/fotos/achocolatados/nescau.png",
+    stock: 0,
+    isActive: false,
+    isVitrine: false,
   },
 
-  // BEBIDAS
+  // BEBIDAS - stock 10 e ativos
   {
     name: "café personalizado",
     category: "bebidas",
     price: 6.99,
     description: "Café personalizado para o seu momento.",
     imageUrl: "/fotos/bebidas/cafe-personalizado.png",
+    stock: 10,
+    isActive: true,
+    isVitrine: false,
   },
   {
     name: "capuccino",
@@ -46,6 +61,9 @@ const products = [
     price: 5.99,
     description: "Delicioso capuccino cremoso e quentinho.",
     imageUrl: "/fotos/bebidas/capuccino.png",
+    stock: 10,
+    isActive: true,
+    isVitrine: false,
   },
   {
     name: "coca-cola",
@@ -53,6 +71,9 @@ const products = [
     price: 3.99,
     description: "Refrigerante clássico para qualquer ocasião.",
     imageUrl: "/fotos/bebidas/coca.png",
+    stock: 10,
+    isActive: true,
+    isVitrine: false,
   },
   {
     name: "gatorade",
@@ -60,6 +81,9 @@ const products = [
     price: 4.99,
     description: "Bebida isotônica para hidratação rápida.",
     imageUrl: "/fotos/bebidas/gatorade.png",
+    stock: 10,
+    isActive: true,
+    isVitrine: false,
   },
   {
     name: "leite",
@@ -67,6 +91,9 @@ const products = [
     price: 3.49,
     description: "Leite fresco e nutritivo.",
     imageUrl: "/fotos/bebidas/leite.png",
+    stock: 10,
+    isActive: true,
+    isVitrine: false,
   },
   {
     name: "refrigerante",
@@ -74,15 +101,21 @@ const products = [
     price: 3.99,
     description: "Refrigerantes variados para sua escolha.",
     imageUrl: "/fotos/bebidas/refrigerantes.png",
+    stock: 10,
+    isActive: true,
+    isVitrine: false,
   },
 
-  // BOLOS E TORTAS
+  // BOLOS E TORTAS - stock 10 e ativos
   {
     name: "bola de morango",
     category: "bolos-e-tortas",
     price: 14.99,
     description: "Bolo de morango fresco e saboroso.",
     imageUrl: "/fotos/bolos-e-tortas/bola de morango.png",
+    stock: 10,
+    isActive: true,
+    isVitrine: false,
   },
   {
     name: "bolo de oreo",
@@ -90,6 +123,9 @@ const products = [
     price: 17.99,
     description: "Bolo cremoso com pedaços de Oreo.",
     imageUrl: "/fotos/bolos-e-tortas/bolo de oreo.png",
+    stock: 10,
+    isActive: true,
+    isVitrine: false,
   },
   {
     name: "bolo de chocolate",
@@ -97,6 +133,9 @@ const products = [
     price: 13.99,
     description: "Bolo de chocolate delicioso e macio.",
     imageUrl: "/fotos/bolos-e-tortas/bolo_de_chocolate.png",
+    stock: 10,
+    isActive: true,
+    isVitrine: false,
   },
   {
     name: "torta de frutas",
@@ -104,15 +143,21 @@ const products = [
     price: 15.99,
     description: "Torta com frutas frescas e creme suave.",
     imageUrl: "/fotos/bolos-e-tortas/torta_de_frutas.png",
+    stock: 10,
+    isActive: true,
+    isVitrine: false,
   },
 
-  // COMBOS
+  // COMBOS - stock 10 e ativos
   {
     name: "combo café da manhã",
     category: "combos",
     price: 19.99,
     description: "Combo especial para seu café da manhã.",
     imageUrl: "/fotos/combos/combo cafe da manha.png",
+    stock: 10,
+    isActive: true,
+    isVitrine: false,
   },
   {
     name: "combo de salgados",
@@ -120,15 +165,21 @@ const products = [
     price: 24.99,
     description: "Variedade de salgados para seu lanche.",
     imageUrl: "/fotos/combos/combo de salgados.png",
+    stock: 10,
+    isActive: true,
+    isVitrine: false,
   },
 
-  // DOCES
+  // DOCES - stock 10 e ativos
   {
     name: "doce de leite",
     category: "doces",
     price: 5.99,
     description: "Doce de leite caseiro e cremoso.",
     imageUrl: "/fotos/doces/doce de leite.png",
+    stock: 10,
+    isActive: true,
+    isVitrine: false,
   },
   {
     name: "macarone",
@@ -136,6 +187,9 @@ const products = [
     price: 4.99,
     description: "Macarons delicados e coloridos.",
     imageUrl: "/fotos/doces/macarone.png",
+    stock: 10,
+    isActive: true,
+    isVitrine: false,
   },
   {
     name: "milkshake",
@@ -143,6 +197,9 @@ const products = [
     price: 7.99,
     description: "Milkshake gelado com sabor intenso.",
     imageUrl: "/fotos/doces/milkshake.png",
+    stock: 10,
+    isActive: true,
+    isVitrine: false,
   },
   {
     name: "panqueca de chocolate e sorvete",
@@ -150,6 +207,9 @@ const products = [
     price: 11.99,
     description: "Panqueca doce com chocolate e sorvete.",
     imageUrl: "/fotos/doces/panqueca de chocolate e sorvete.png",
+    stock: 10,
+    isActive: true,
+    isVitrine: false,
   },
   {
     name: "rosquinhas",
@@ -157,15 +217,21 @@ const products = [
     price: 5.99,
     description: "Rosquinhas fresquinhas para o lanche.",
     imageUrl: "/fotos/doces/rosquinhas.png",
+    stock: 10,
+    isActive: true,
+    isVitrine: false,
   },
 
-  // PÃES
+  // PÃES - stock 10 e ativos
   {
     name: "croissant",
     category: "paes",
     price: 4.49,
     description: "Croissant amanteigado e folhado.",
     imageUrl: "/fotos/paes/croissant.png",
+    stock: 10,
+    isActive: true,
+    isVitrine: false,
   },
   {
     name: "pães de queijo",
@@ -173,6 +239,9 @@ const products = [
     price: 5.49,
     description: "Pães de queijo quentinhos e saborosos.",
     imageUrl: "/fotos/paes/paes de queijo.png",
+    stock: 10,
+    isActive: true,
+    isVitrine: false,
   },
   {
     name: "pão doce",
@@ -180,6 +249,9 @@ const products = [
     price: 3.99,
     description: "Pão doce macio com toque especial.",
     imageUrl: "/fotos/paes/pao doce.png",
+    stock: 10,
+    isActive: true,
+    isVitrine: false,
   },
   {
     name: "pão francês",
@@ -187,15 +259,21 @@ const products = [
     price: 2.99,
     description: "Pão francês fresquinho do dia.",
     imageUrl: "/fotos/paes/pao frances.png",
+    stock: 10,
+    isActive: true,
+    isVitrine: false,
   },
 
-  // QUEIJOS
+  // QUEIJOS - stock 10 e ativos
   {
     name: "queijo branco caseiro",
     category: "queijos",
     price: 9.99,
     description: "Queijo branco caseiro, sabor tradicional.",
     imageUrl: "/fotos/queijos/queijo branco caseiro.png",
+    stock: 10,
+    isActive: true,
+    isVitrine: false,
   },
   {
     name: "queijo coalho",
@@ -203,6 +281,9 @@ const products = [
     price: 11.99,
     description: "Queijo coalho perfeito para churrasco.",
     imageUrl: "/fotos/queijos/queijo coalho.png",
+    stock: 10,
+    isActive: true,
+    isVitrine: false,
   },
   {
     name: "queijo gorgonzola",
@@ -210,6 +291,9 @@ const products = [
     price: 14.99,
     description: "Queijo gorgonzola forte e cremoso.",
     imageUrl: "/fotos/queijos/queijo gorgonzola.png",
+    stock: 10,
+    isActive: true,
+    isVitrine: false,
   },
   {
     name: "queijo gourmet",
@@ -217,6 +301,9 @@ const products = [
     price: 13.99,
     description: "Queijo gourmet para paladares exigentes.",
     imageUrl: "/fotos/queijos/queijo gourmet.png",
+    stock: 10,
+    isActive: true,
+    isVitrine: false,
   },
   {
     name: "queijo minas",
@@ -224,15 +311,21 @@ const products = [
     price: 10.99,
     description: "Queijo minas tradicional mineiro.",
     imageUrl: "/fotos/queijos/queijo minas.png",
+    stock: 10,
+    isActive: true,
+    isVitrine: false,
   },
 
-  // SALGADOS
+  // SALGADOS - stock 10 e ativos
   {
     name: "coxinha",
     category: "salgados",
     price: 4.99,
     description: "Coxinha crocante e recheada.",
     imageUrl: "/fotos/salgados/coxinha.png",
+    stock: 10,
+    isActive: true,
+    isVitrine: false,
   },
   {
     name: "coxinhas",
@@ -240,6 +333,9 @@ const products = [
     price: 5.49,
     description: "Coxinhas fresquinhas para seu lanche.",
     imageUrl: "/fotos/salgados/coxinhas.png",
+    stock: 10,
+    isActive: true,
+    isVitrine: false,
   },
   {
     name: "kibis",
@@ -247,6 +343,9 @@ const products = [
     price: 5.99,
     description: "Kibis crocantes e saborosos.",
     imageUrl: "/fotos/salgados/kibis.png",
+    stock: 10,
+    isActive: true,
+    isVitrine: false,
   },
   {
     name: "pastel",
@@ -254,17 +353,24 @@ const products = [
     price: 4.49,
     description: "Pastel quentinho e recheado.",
     imageUrl: "/fotos/salgados/pastel.png",
+    stock: 10,
+    isActive: true,
+    isVitrine: false,
   },
 
-  // SANDUÍCHES
+  // SANDUÍCHES - stock 10 e ativos
   {
     name: "sanduíche alface tomate",
     category: "sanduiches",
     price: 6.99,
     description: "Sanduíche leve com alface e tomate.",
     imageUrl: "/fotos/sanduiches/sanduiche alface tomate.png",
+    stock: 10,
+    isActive: true,
+    isVitrine: false,
   },
 ];
+
 
 export async  function ProductsSedd() {
   console.log("Starting seed...");
