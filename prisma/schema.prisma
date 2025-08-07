@@ -22,7 +22,7 @@ enum Role {
 
 enum OrderStatus {
   PROCESSING
-   ITENS_PROCESSING
+  ITENS_PROCESSING
   SHIPPED
   ORDER_FINISH
   DELIVERED
@@ -37,7 +37,7 @@ model User {
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
 
-    userInfo UserInfo?
+  userInfo UserInfo?
   orders   Order[]
 
   @@map("users")
@@ -45,7 +45,7 @@ model User {
 
 model UserInfo {
   id           String   @id @default(uuid())
-  userId String @unique @map("user_id") 
+  userId       String   @unique @map("user_id") 
   street       String
   houseNumber  String   @map("house_number")
   neighborhood String
@@ -59,7 +59,6 @@ model UserInfo {
   @@map("user_infos")
 }
 
-
 model Product {
   id          String   @id @default(uuid())
   name        String
@@ -67,38 +66,15 @@ model Product {
   category    String
   imageUrl    String?
   price       Float
-  isVitrine  Boolean  @default(false) 
+  isVitrine   Boolean  @default(false)
+  stock       Int      @default(0)
+  isActive    Boolean  @default(true)
   createdAt   DateTime @default(now()) @map("created_at")
   updatedAt   DateTime @default(now()) @updatedAt @map("updated_at")
 
-  orderItems OrderItem[]
-  stockByDay ProductDay[]
+  orderItems  OrderItem[]
 
   @@map("products")
-}
-
-model DayOfWeek {
-  id        String   @id @default(uuid())
-  name      String
-  createdAt DateTime @default(now()) @map("created_at")
-
-  products ProductDay[]
-
-  @@map("days_of_week")
-}
-
-model ProductDay {
-  id          String   @id @default(uuid())
-  productId   String   @map("product_id")
-  dayOfWeekId String   @map("day_of_week_id")
-  stock       Int      @default(0)
-  createdAt   DateTime @default(now()) @map("created_at")
-  updatedAt   DateTime @default(now()) @updatedAt @map("updated_at")
-
-  product   Product   @relation(fields: [productId], references: [id])
-  dayOfWeek DayOfWeek @relation(fields: [dayOfWeekId], references: [id])
-
-  @@map("product_days")
 }
 
 model Order {
@@ -126,16 +102,14 @@ model OrderItem {
   product Product @relation(fields: [productId], references: [id])
 
   @@map("order_items")
-
-  
 }
+
 model DailySales {
-  id         String   @id @default(uuid())
-  date       DateTime @unique // ex: 2025-08-02 assim sempre so vai ter apenas 1 por dia
-  totalSales Float
+  id          String   @id @default(uuid())
+  date        DateTime @unique
+  totalSales  Float
   totalOrders Int
-  createdAt  DateTime @default(now()) @map("created_at")
+  createdAt   DateTime @default(now()) @map("created_at")
 
   @@map("daily_sales")
 }
-
