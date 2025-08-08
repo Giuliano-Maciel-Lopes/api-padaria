@@ -2,6 +2,8 @@ import { Request, Response } from "express";
 import Stripe from "stripe";
 import { prisma } from "@/database/prisma.js";
 import { env } from "@/utils/env.js";
+import { ProductsUnuvaliable } from "@/services/controller/stripe/productsUnavaliable.js";
+import { veryfyOrdersStatus } from "@/services/controller/stripe/verifyordersStatus.js";
 
 const stripe = new Stripe(env.STRIPE_SECRET_KEY, {
   apiVersion: "2025-06-30.basil",
@@ -10,16 +12,9 @@ const stripe = new Stripe(env.STRIPE_SECRET_KEY, {
 class StripeController {
   async create(req: Request, res: Response): Promise<void> {
     const userId = req.user!.id;
-  console.log("Create checkout session called");
+
     try {
-      const order = await prisma.order.findFirst({
-        where: { userId, status: "PROCESSING" },
-        include: {
-          items: {
-            include: { product: true },
-          },
-        },
-      });
+      const order = await veryfyOrdersStatus(userId); 
 
       if (!order) {
         res
@@ -27,7 +22,17 @@ class StripeController {
           .json({ message: "Nenhum pedido em processamento encontrado." });
         return;
       }
+      const unavailableProducts = await ProductsUnuvaliable(order); 
 
+      if (unavailableProducts.length > 0) {
+        res.status(400).json({
+          message: "Alguns produtos não estão mais disponíveis nessa quantidade.",
+          product: unavailableProducts,
+        });
+        return;
+      }
+      // tiver produto na quantidade certa e o pedido ent abre o stripe 
+      
       const line_items = order.items.map((item) => ({
         price_data: {
           currency: "brl",
@@ -46,7 +51,6 @@ class StripeController {
         success_url: `${env.URL_FRONT}/cart/payment?session_id={CHECKOUT_SESSION_ID}`,
         cancel_url: `${env.URL_FRONT}/cart/payment?canceled=true`,
         metadata: { orderId: order.id },
-        
       });
 
       res.json({ url: session.url });
@@ -57,10 +61,6 @@ class StripeController {
         .json({ message: "Erro ao criar sessão de checkout Stripe" });
     }
   }
-
-  
-
 }
-
 
 export { StripeController };
