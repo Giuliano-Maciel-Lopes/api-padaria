@@ -5,6 +5,8 @@ import { updateBodySchemaIsHome } from "@/schema/orders/updateishome.js";
 import { orderStatusQuerySchema } from "@/schema/orders/indexorder.js";
 import { orderSelect } from "@/services/controller/order/selectorderindexSHow.js";
 import { Prisma } from "@prisma/client";
+import { IndexWhere } from "@/services/controller/order/indexwhere.js";
+import { updateDeliveredOrders } from "@/services/controller/order/updateDeliveredOrders.js";
 
 class OrdersController {
   async create(req: Request, res: Response): Promise<void> {
@@ -28,46 +30,32 @@ class OrdersController {
   }
 
   async index(req: Request, res: Response) {
-    const isAdm = req.user?.role === "ADMIN";
+  const role = req.user?.role;
+  const userId = req.user?.id;
 
-    const { status, search } = orderStatusQuerySchema.parse(req.query);
+  const { status, search } = orderStatusQuerySchema.parse(req.query);
 
-    const baseWhere = isAdm ? {} : { userId: req.user?.id };
+  const where = IndexWhere({role , search , status, userId})
 
-    const where: Prisma.OrderWhereInput = {  // NOVIDADE ESSA TIPAGEM COM PRISMA RESOLVE O PROBLEMA DO WHERE  
-      ...baseWhere,
-      ...(status && { status }),
-      ...(search && {
-        user: {
-          is: {
-            name: {
-              contains: search,
-              mode: "insensitive",
-            },
-          },
-        },
-      }),
-    };
+  const ordersUser = await prisma.order.findMany({
+    where,
+    select: orderSelect,
+  });
 
-    const ordersUser = await prisma.order.findMany({
-      where,
-      select: orderSelect,
-    });
+  res.json(ordersUser);
+}
 
-    res.json(ordersUser);
-  }
 
   async updateStatus(req: Request, res: Response) {
+    const delivred = req.user?.id
+    
     const { status } = bodySchema.parse(req.body);
 
     const { id } = paramsSchema.parse(req.params);
 
-    const update = await prisma.order.update({
-      where: { id },
-      data: { status },
-    });
+  await  updateDeliveredOrders({id , newStatus:status , res})
 
-    res.json("status do pedido atualizado  " );
+    res.json("status do pedido atualizado  ");
   }
   async updateIsHome(req: Request, res: Response) {
     const { id } = paramsSchema.parse(req.params);

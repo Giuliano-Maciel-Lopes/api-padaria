@@ -11,7 +11,7 @@ const ordersController = new OrdersController();
 ordersRoutes.post("/", ordersController.create);
 ordersRoutes.patch(
   "/status/:id",
-  verifyUserAuthorization(["DELIVERED", "STOCK", "ADMIN"]),
+  verifyUserAuthorization(["DELIVERY_PERSON", "STOCK", "ADMIN"]),
   ordersController.updateStatus
 );
 ordersRoutes.patch("/isHome/:id", ordersController.updateIsHome);

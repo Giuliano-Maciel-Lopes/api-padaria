@@ -37,20 +37,21 @@ model User {
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
 
-  userInfo UserInfo?
-  orders   Order[]
+  userInfo   UserInfo?
+  orders     Order[]
+  deliveries Order[]   @relation("DeliveryPersonOrders") // pedidos do entregador
 
   @@map("users")
 }
 
 model UserInfo {
   id           String   @id @default(uuid())
-  userId       String   @unique @map("user_id") 
+  userId       String   @unique @map("user_id")
   street       String
   houseNumber  String   @map("house_number")
   neighborhood String
   city         String
-  phone        String   @map("phone") 
+  phone        String   @map("phone")
   createdAt    DateTime @default(now()) @map("created_at")
   updatedAt    DateTime @default(now()) @updatedAt @map("updated_at")
 
@@ -72,19 +73,21 @@ model Product {
   createdAt   DateTime @default(now()) @map("created_at")
   updatedAt   DateTime @default(now()) @updatedAt @map("updated_at")
 
-  orderItems  OrderItem[]
+  orderItems OrderItem[]
 
   @@map("products")
 }
 
 model Order {
-  id          String      @id @default(uuid())
-  userId      String      @map("user_id")
-  totalAmount Float       @default(0) @map("total_amount")
-  status      OrderStatus @default(PROCESSING)
-  createdAt   DateTime    @default(now()) @map("created_at")
-  isHome      Boolean     @default(false)
-  user        User        @relation(fields: [userId], references: [id])
+  id               String      @id @default(uuid())
+  userId           String      @map("user_id")
+  deliveryPersonId String?     @map("delivery_person_id") // campo opcional para o entregador
+  totalAmount      Float       @default(0) @map("total_amount")
+  status           OrderStatus @default(PROCESSING)
+  createdAt        DateTime    @default(now()) @map("created_at")
+  isHome           Boolean     @default(false)
+  user             User        @relation(fields: [userId], references: [id])
+  deliveryPerson   User?       @relation("DeliveryPersonOrders", fields: [deliveryPersonId], references: [id])
 
   items OrderItem[]
 
