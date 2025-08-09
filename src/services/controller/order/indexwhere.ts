@@ -6,9 +6,10 @@ type IndexWhereInput = {
   userId?: string;
   status?: OrderStatus;
   search?: string;
+  deliveryPersonId?:string
 };
 
-export function IndexWhere({ search, status, role, userId }: IndexWhereInput) {
+export function IndexWhere({ search, status, role, userId ,deliveryPersonId }: IndexWhereInput) {
   let where: Prisma.OrderWhereInput = {};
 
   if (role === "ADMIN") {
@@ -18,11 +19,12 @@ export function IndexWhere({ search, status, role, userId }: IndexWhereInput) {
     
     if (status === "ORDER_FINISH") {
       // Entregador vê todos os pedidos finalizados
-      where = { status };
+      where = { status , isHome:true};
+      
     } else {
       // Entregador vê só os pedidos dele
       where = {
-        userId,
+        deliveryPersonId,
         ...(status && { status }),
       };
     }

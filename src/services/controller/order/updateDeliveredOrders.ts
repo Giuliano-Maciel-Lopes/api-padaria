@@ -1,13 +1,22 @@
 import { prisma } from "@/database/prisma.js";
 import type { Response } from "express";
 import type { OrderStatus } from "@prisma/client";
+import { Role } from "@/types/enum.js";
 type UpdateDeliveredOrders = {
   id: string;
   res: Response;
   newStatus: OrderStatus;
+  userId: string;
+  role: Role;
 };
 
-export async function updateDeliveredOrders({id , newStatus ,res}: UpdateDeliveredOrders) {
+export async function updateDeliveredOrders({
+  userId,
+  id,
+  newStatus,
+  res,
+  role,
+}: UpdateDeliveredOrders) {
   const order = await prisma.order.findUnique({ where: { id } });
 
   if (!order) {
@@ -15,16 +24,16 @@ export async function updateDeliveredOrders({id , newStatus ,res}: UpdateDeliver
   }
 
   const allowedCurrentStatuses = ["ORDER_FINISH", "DELIVERED"];
-
-  if (!allowedCurrentStatuses.includes(order.status)) {
-    return res
-      .status(403)
-      .json({ error: "Não é possível atualizar este pedido neste status" });
+  if (role === "DELIVERY_PERSON") {
+    if (!allowedCurrentStatuses.includes(order.status)) {
+      return res
+        .status(403)
+        .json({ error: "Não é possível atualizar este pedido neste status" });
+    }
   }
-
   const updatedOrder = await prisma.order.update({
     where: { id },
-    data: { status: newStatus },
+    data: { status: newStatus, deliveryPersonId: userId },
   });
 
   return res.json({ message: "Pedido atualizado com sucesso", updatedOrder });

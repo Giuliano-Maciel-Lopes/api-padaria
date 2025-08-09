@@ -30,33 +30,38 @@ class OrdersController {
   }
 
   async index(req: Request, res: Response) {
-  const role = req.user?.role;
-  const userId = req.user?.id;
+    const role = req.user?.role;
+    const userId = req.user?.id;
 
-  const { status, search } = orderStatusQuerySchema.parse(req.query);
+    const { status, search } = orderStatusQuerySchema.parse(req.query);
 
-  const where = IndexWhere({role , search , status, userId})
+    const where = IndexWhere({ role, search, status, userId , deliveryPersonId:userId });
 
-  const ordersUser = await prisma.order.findMany({
-    where,
-    select: orderSelect,
-  });
+    const ordersUser = await prisma.order.findMany({
+      where,
+      select: orderSelect,
+      orderBy: { createdAt: "asc" },
+    });
 
-  res.json(ordersUser);
-}
-
+    res.json(ordersUser);
+  }
 
   async updateStatus(req: Request, res: Response) {
-    const delivred = req.user?.id
-    
+    const userId = req.user?.id;
+    const role = req.user?.role
+    if (!userId || !role) {
+      return res.status(401).json({ error: "Usuário não autenticado" });
+    }
+
     const { status } = bodySchema.parse(req.body);
 
     const { id } = paramsSchema.parse(req.params);
 
-  await  updateDeliveredOrders({id , newStatus:status , res})
+    await updateDeliveredOrders({ id, newStatus: status, res, userId ,role });
 
-    res.json("status do pedido atualizado  ");
+    
   }
+
   async updateIsHome(req: Request, res: Response) {
     const { id } = paramsSchema.parse(req.params);
     const { isHome } = updateBodySchemaIsHome.parse(req.body);
@@ -67,6 +72,7 @@ class OrdersController {
       .status(200)
       .json({ message: "Status de entrega atualizado com sucesso." });
   }
+
   async delete(req: Request, res: Response) {
     const { id } = paramsSchema.parse(req.params);
 
