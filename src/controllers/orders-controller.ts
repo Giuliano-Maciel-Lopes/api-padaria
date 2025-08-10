@@ -7,6 +7,7 @@ import { orderSelect } from "@/services/controller/order/selectorderindexSHow.js
 import { Prisma } from "@prisma/client";
 import { IndexWhere } from "@/services/controller/order/indexwhere.js";
 import { updateDeliveredOrders } from "@/services/controller/order/updateDeliveredOrders.js";
+import { showWhere } from "@/services/controller/order/showWhere.js";
 
 class OrdersController {
   async create(req: Request, res: Response): Promise<void> {
@@ -90,14 +91,19 @@ class OrdersController {
   }
 
   async show(req: Request, res: Response): Promise<void> {
-    const ADM = req.user?.role === "ADMIN";
+    const role = req.user?.role 
     const userId = req.user?.id;
-    const baseWhere = ADM ? {} : { userId };
+    if(!userId || !role){
+      res.status(404).json("usuario nao autenticado")
+      return
+    }
+
 
     const { id } = paramsSchema.parse(req.params);
+    const where =  showWhere({deliveryPersonId:userId , id ,role , userId})
 
     const order = await prisma.order.findFirst({
-      where: { ...baseWhere, id },
+      where,
       select: orderSelect,
     });
 

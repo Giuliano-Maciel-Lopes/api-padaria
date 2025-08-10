@@ -38,3 +38,4 @@ export async function updateDeliveredOrders({
 
   return res.json({ message: "Pedido atualizado com sucesso", updatedOrder });
 }
+//na rota os unicos que podem mudar e delivred e  admm
