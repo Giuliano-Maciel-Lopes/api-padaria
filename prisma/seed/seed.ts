@@ -5,7 +5,7 @@ import { ReportTestProd } from "./testprod.js";
 async function seedPrincipal() {
   try {
     console.log("Running dayOfWeek seed...");
-    await  ReportTestProd();
+  
 
     console.log("Running products seed...");
     await ProductsSedd();
