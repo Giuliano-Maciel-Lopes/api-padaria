@@ -2,6 +2,8 @@ import { prisma } from "@/database/prisma.js";
 import { Request, Response } from "express";
 import { createUserInfoSchema } from "@/schema/userInfo/create.js";
 import { parasChemaUserInfo } from "@/schema/userInfo/index.js";
+import { bodySchemaUpdateUserinfo } from "@/schema/userInfo/update.js";
+import { json } from "stream/consumers";
 
 class UserInfoController {
   async create(req: Request, res: Response): Promise<void> {
@@ -31,19 +33,14 @@ class UserInfoController {
     res.status(201).json("informaçoes do usuario cadastrado");
     return;
   }
-async indexCustomer(req: Request, res: Response): Promise<void> {
-  
-}
+
   async index(req: Request, res: Response): Promise<void> {
-
     const { userId } = parasChemaUserInfo.parse(req.params);
-
- 
 
     const userInfo = await prisma.userInfo.findFirst({
       where: { userId },
       select: {
-        id:true,
+        id: true,
         city: true,
         houseNumber: true,
         phone: true,
@@ -53,6 +50,17 @@ async indexCustomer(req: Request, res: Response): Promise<void> {
     });
 
     res.status(200).json(userInfo);
+  }
+  async update(req: Request, res: Response): Promise<void> {
+    const userId = req.user?.id;
+      if (!userId) {
+    res.status(401).json({ message: "Usuário não autenticado" });
+    return
+  }
+    const data = bodySchemaUpdateUserinfo.parse(req.body);
+
+    const userInfo = await prisma.userInfo.update({ where: { userId }, data });
+    res.json(userInfo);
   }
 }
 

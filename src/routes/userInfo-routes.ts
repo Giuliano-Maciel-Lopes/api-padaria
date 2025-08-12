@@ -13,5 +13,10 @@ userInfoRoutes.get(
   verifyUserAuthorization(["CUSTOMER"]),
   userInfoController.index
 );
+userInfoRoutes.patch(
+  "/update",
+  verifyUserAuthorization(["CUSTOMER"]),
+  userInfoController.update
+);
 
 export { userInfoRoutes };
