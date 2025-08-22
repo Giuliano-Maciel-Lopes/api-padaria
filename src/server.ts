@@ -1,8 +1,9 @@
 import { app } from "@/app.js";
 import {starReportDayJob} from "./cronJobs/reportday.js";
+import { env } from "./utils/env.js";
 starReportDayJob()
 
-const PORT = 3333;
+const PORT = env.PORT;
 
 app.listen(PORT, () => {
   console.log(`Servidor rodando na porta ${PORT}...`);

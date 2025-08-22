@@ -3,8 +3,13 @@
   "version": "1.0.0",
   "main": "index.js",
   "type": "module",
+  "engines": {
+    "node": ">=18"
+  },
   "scripts": {
-    "dev": "tsx --watch ./src/server"
+    "dev": "tsx --watch ./src/server",
+    "build": "tsup src --out-dir build --format esm",
+    "start": "node --env-file .env build/server.js"
   },
   "prisma": {
     "seed": "tsx ./prisma/seed/seed"
@@ -38,6 +43,7 @@
     "@types/node": "^22.15.30",
     "@types/node-cron": "^3.0.11",
     "prisma": "^5.19.1",
+    "tsup": "^8.5.0",
     "tsx": "^4.19.4",
     "typescript": "^5.8.3"
   }
