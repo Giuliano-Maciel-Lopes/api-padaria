@@ -12,7 +12,9 @@
   "start": "node build/server.js"
   },
   "prisma": {
-     "seed": "node ./prisma/seed/seed.js"
+    "prisma": {
+  "seed": "tsx prisma/seed/seed.ts"
+}
   },
   "keywords": [],
   "author": "Giuliano Maciel Lopes",

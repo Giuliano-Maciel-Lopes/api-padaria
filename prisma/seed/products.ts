@@ -9,8 +9,8 @@ const products = [
     price: 6.49,
     description: "Chocolate em pó para bebidas e receitas.",
     imageUrl: "/fotos/achocolatados/chocolate em po.png",
-    stock: 0,
-    isActive: false,
+    stock: 3,
+    isActive: true,
     isVitrine: false,
   },
   {
@@ -29,8 +29,8 @@ const products = [
     price: 4.99,
     description: "Leite em pó de alta qualidade e sabor.",
     imageUrl: "/fotos/achocolatados/leite em po.png",
-    stock: 0,
-    isActive: false,
+    stock: 30,
+    isActive: true,
     isVitrine: false,
   },
   {
@@ -39,8 +39,8 @@ const products = [
     price: 4.49,
     description: "Achocolatado em pó saboroso e prático.",
     imageUrl: "/fotos/achocolatados/nescau.png",
-    stock: 0,
-    isActive: false,
+    stock: 40,
+    isActive: true,
     isVitrine: false,
   },
 
@@ -125,7 +125,7 @@ const products = [
     imageUrl: "/fotos/bolos-e-tortas/bolo de chocolate com jabuticaba.jpg",
     stock: 10,
     isActive: true,
-    isVitrine: false,
+    isVitrine: true,
   },
   {
     name: "bolo de oreo",
@@ -145,7 +145,7 @@ const products = [
     imageUrl: "/fotos/bolos-e-tortas/bolo de queijo com jabuticaba.jpg",
     stock: 10,
     isActive: true,
-    isVitrine: false,
+    isVitrine: true,
   },
   {
     name: "bolo de chocolate",
@@ -165,7 +165,7 @@ const products = [
     imageUrl: "/fotos/bolos-e-tortas/torta de jabuticaba e limao.avif",
     stock: 10,
     isActive: true,
-    isVitrine: false,
+    isVitrine: true,
   },
   {
     name: "torta de frutas",
