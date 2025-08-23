@@ -11,11 +11,11 @@
     "build": "tsup src --out-dir build --format esm",
   "start": "node build/server.js"
   },
+  
   "prisma": {
-    "prisma": {
   "seed": "tsx prisma/seed/seed.ts"
-}
   },
+
   "keywords": [],
   "author": "Giuliano Maciel Lopes",
   "license": "ISC",
