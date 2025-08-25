@@ -3,9 +3,10 @@ import {starReportDayJob} from "./cronJobs/reportday.js";
 import { env } from "./utils/env.js";
 starReportDayJob()
 
-const PORT = env.PORT;
+const PORT: number = env.PORT ?? 3333
+const HOST = "0.0.0.0";
 
-app.listen(PORT, () => {
+app.listen(PORT, HOST ,  () => {
   console.log(`Servidor rodando na porta ${PORT}...`);
 });
 console.log("Hora local do servidor:", new Date().toString());
