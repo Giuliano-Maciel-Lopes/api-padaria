@@ -9,13 +9,11 @@
   "scripts": {
     "dev": "tsx --watch ./src/server",
     "build": "tsup src --out-dir build --format esm",
-  "start": "node build/server.js"
+    "start": "node build/server.js"
   },
-  
   "prisma": {
-  "seed": "tsx prisma/seed/seed.ts"
+    "seed": "tsx prisma/seed/seed.ts"
   },
-
   "keywords": [],
   "author": "Giuliano Maciel Lopes",
   "license": "ISC",

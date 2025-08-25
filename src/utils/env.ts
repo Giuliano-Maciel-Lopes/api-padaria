@@ -12,6 +12,8 @@ const schemaEnv = z.object({
   ADMIN_PASSWORD: z.string(),
   STOCK_PASSWORD: z.string(),
   DELIVERY_PASSWORD: z.string(),
-  PORT: z.coerce.number().default(3333), 
+  URL_FRONT: z.string(),
+  PORT: z.coerce.number().default(3333),
+  
 });
 export const env = schemaEnv.parse(process.env);
