@@ -16,7 +16,15 @@ const __dirname = path.dirname(__filename)
 
 const app = express()
 
-app.use(cors())
+app.use(cors({
+  origin: [
+    "https://padariamineira.vercel.app", // produção
+    "http://localhost:5173"               // frontend local (vite, react, etc)
+  ],
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"]
+}));
+
 app.use("/fotos", express.static(path.resolve(__dirname, "..", "public", "fotos")))
 
 app.use("/stripe" , stripeWebhookRoutes)
