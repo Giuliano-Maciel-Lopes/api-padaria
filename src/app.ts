@@ -25,6 +25,8 @@ app.use(cors({
   allowedHeaders: ["Content-Type", "Authorization"]
 }));
 
+app.options("*", cors());
+
 app.use("/fotos", express.static(path.resolve(__dirname, "..", "public", "fotos")))
 
 app.use("/stripe" , stripeWebhookRoutes)
