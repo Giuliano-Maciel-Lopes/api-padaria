@@ -13,7 +13,7 @@ const schemaEnv = z.object({
   STOCK_PASSWORD: z.string(),
   DELIVERY_PASSWORD: z.string(),
   URL_FRONT: z.string(),
-  PORT: z.coerce.number().default(3333),
+  PORT: z.coerce.number().optional()
   
 });
 export const env = schemaEnv.parse(process.env);
